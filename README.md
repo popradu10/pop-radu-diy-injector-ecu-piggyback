@@ -17,16 +17,14 @@ Preconditions:
 2. Upgrate your exhaust. For e.g. remove the catalytic converter from the exhaust.
 3. Unlocked your ECU engine controller. For e.g. unrestricted ECU engine controller for Barton Volcano Euro 5.
 
-
-
-
-
 ### Piggyback the existing Injector signal comming from ECU
-![EV1 male and female connector](/docs/EV1%20male%20female%20connector.jpg)
+
+<img src="/docs/EV1%20male%20female%20connector.jpg" width="400">
 
 ### Capturing on/off signal
 Using a PC817 2-Channel Optocoupler Isolation Board you are able to capture the 12v that comes to the injector
-![PC817 2-Channel Optocoupler](/docs/pc817-optocoupler.jpg)
+
+<img src="/docs/pc817-optocoupler.jpg" width="400">
 
 Details:
 
@@ -35,7 +33,7 @@ Details:
 
 ### NODEMCU Arduino ESP32 CH340
 
-![PC817 2-Channel Optocoupler](/docs/NodeMCU-ESP32.png)
+<img src="/docs/NodeMCU-ESP32.png" width="400">
 
 ### F5305S Power Mosfet Module
 
@@ -54,17 +52,17 @@ Specifications:
 * Input Current: 5mA
 * Output Voltage(V): 5 ~ 35
 
-![F5305S Power Mosfet Module](/docs/mosfet.jpg)
+<img src="/docs/mosfet.jpg" width="400">
 
 ### Increase cylinder capacity kit 139fmb 72cc
 
-![139fmb 72cc](/docs/139fmb-72cc-kit.png)
+<img src="/docs/139fmb-72cc-kit.png" width="400">
 
 ### Exhaust without catalytic converter
 
-![Exhaust without catalytic converter](/docs/JUNAK-BARTON-exhaust.jpg)
+<img src="/docs/JUNAK-BARTON-exhaust.jpg" width="400">
 
 ### Unlock ECU Junak/Barton 50cc
 
-![Unlock ECU](/docs/unlock-ecu-junak-barton.jpg)
+<img src="/docs/unlock-ecu-junak-barton.jpg" width="400">
 
