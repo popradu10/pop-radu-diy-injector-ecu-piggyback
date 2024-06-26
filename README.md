@@ -33,7 +33,17 @@ Details:
 
 ### NODEMCU Arduino ESP32 CH340
 
+The NODEMCU Arduino ESP32 CH340 is a development board based on the ESP32 microcontroller.
+
 <img src="/docs/NodeMCU-ESP32.png" width="400">
+
+Specifications:
+
+* Core: Dual-core Tensilica LX6 microprocessor
+* Clock Speed: Up to 240 MHz
+* RAM: 520 KB SRAM
+* Flash Memory: 4 MB (varies by model)
+* Wireless: Integrated 802.11 b/g/n Wi-Fi and Bluetooth 4.2 (including BLE)
 
 ### F5305S Power Mosfet Module
 
@@ -46,23 +56,45 @@ Features:
 * Trigger signal: digital high/weak signal, can be connected to IO microcontroller, plc interface, DC power supply, and so on.
 * Output data can control powerful devices: motor, light bulb, light and strips, DC motor, small pumps, solenoid valve.
 
+<img src="/docs/mosfet.jpg" width="400">
+
 Specifications:
 
 * Input Voltage (V): 3 ~ 20
 * Input Current: 5mA
 * Output Voltage(V): 5 ~ 35
 
-<img src="/docs/mosfet.jpg" width="400">
-
 ### Increase cylinder capacity kit 139fmb 72cc
+
+Increasing the cylinder capacity of a 139FMB engine from its stock displacement (typically 50cc) to 72cc involves using a big bore kit.
 
 <img src="/docs/139fmb-72cc-kit.png" width="400">
 
+Components of a Big Bore Kit:
+
+* Cylinder: A larger diameter cylinder to accommodate the increased bore.
+* Piston: A piston that matches the new cylinder bore size.
+* Piston Rings: Corresponding rings for the new piston.
+* Gaskets: New head and base gaskets to ensure a proper seal.
+* Wrist Pin: A wrist pin (also known as a gudgeon pin) to connect the piston to the connecting rod.
+* Circlips: Circlips to secure the wrist pin in place.
+
 ### Exhaust without catalytic converter
+
+Upgrading your exhaust system to one without a catalytic converter can have several implications, in terms of performance. 
 
 <img src="/docs/JUNAK-BARTON-exhaust.jpg" width="400">
 
+Performance Benefits:
+* Increased Power. Removing the catalytic converter reduces back pressure, allowing exhaust gases to flow more freely. This can lead to a noticeable increase in horsepower and torque.
+* Improved Throttle Response. The engine can expel exhaust gases more efficiently, improving throttle response and acceleration.
+* Enhanced Sound. The exhaust note is typically louder and more aggressive without a catalytic converter.
+
 ### Unlock ECU Junak/Barton 50cc
+
+Unlocking an ECU (Engine Control Unit) typically refers to modifying or reprogramming it to remove restrictions placed by the manufacturer.
 
 <img src="/docs/unlock-ecu-junak-barton.jpg" width="400">
 
+Ensure your vehicle’s ECU can be unlocked and that there are compatible tuning solutions available.
+Regularly monitor engine parameters to prevent overheating, detonation, or other issues.
