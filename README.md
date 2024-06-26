@@ -14,7 +14,7 @@ It does this by:
 Preconditions:
 
 1. Increase engine capacity. For e.g. increase 139fmb engine from 50cc to 72cc.
-2. Upgrate your exhaust. For e.g. remove the catalytic converter from the exhaust.
+2. Upgrate your exhaust. For e.g. remove the catalytic converter from the exhaust and obstruct the lambda sensor entry.
 3. Unlocked your ECU engine controller. For e.g. unrestricted ECU engine controller for Barton Volcano Euro 5.
 
 ### Piggyback the existing Injector signal comming from ECU
