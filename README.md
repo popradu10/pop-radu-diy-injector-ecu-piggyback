@@ -7,7 +7,7 @@ It does this by:
 
 1. Taking the injector input from the **ECU** using a EV1 male and female connector and a **PC817 Optocoupler**
 2. Monitoring the opening and closing of the injector using **Arduino ESP32 CH340** board
-3. Delay closing the injector, the delay is computed proportional using **Arduino ESP32 CH340** and the [arduino code from here.](/src/pop-radu-diy-injector-ecu-piggyback.ino)
+3. Delay closing the injector, the delay is computed proportional using **Arduino ESP32 CH340** and the [arduino code from here.](/pop-radu-diy-injector-ecu-piggyback.ino/pop-radu-diy-injector-ecu-piggyback.ino)
 4. The injector is then closed and open using **F5305S Power Mosfet Module** that can react very quickly to changes.
 5. The user can select to apply a delay of 25%, 35% or 45% 
 
