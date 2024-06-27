@@ -7,7 +7,7 @@ It does this by:
 
 1. Taking the injector input from the **ECU** using a EV1 male and female connector and a **PC817 Optocoupler**
 2. Monitoring the opening and closing of the injector using **Arduino ESP32 CH340** board
-3. Delay closing the injector, the delay is computed proportional using **Arduino ESP32 CH340** and the [arduino code from here.](/pop-radu-diy-injector-ecu-piggyback.ino/pop-radu-diy-injector-ecu-piggyback.ino)
+3. Delay closing the injector, the delay is computed proportional using **Arduino ESP32 CH340** and the [arduino code from here.](/pop-radu-diy-injector-ecu-piggyback.ino/pop-radu-diy-injector-ecu-piggyback.ino) . Using the esp32 espressif library v2.x.x .
 4. The injector is then closed and open using **F5305S Power Mosfet Module** that can react very quickly to changes.
 5. The user can select to apply a delay of 25%, 35% or 45% 
 
@@ -98,3 +98,15 @@ Unlocking an ECU (Engine Control Unit) typically refers to modifying or reprogra
 
 Ensure your vehicle’s ECU can be unlocked and that there are compatible tuning solutions available.
 Regularly monitor engine parameters to prevent overheating, detonation, or other issues.
+
+### Arduiono IDE with esp32 espressif library v2.x.x
+
+Set up the Arduino IDE with the ESP32 Espressif library version 2.x.x .
+
+<img src="/docs/arduino-idee-esp32 v2.x.jpg" width="400">
+
+You should have the Arduino IDE set up with the ESP32 Espressif library version 2.x.x successfully.
+Writing the code to your ESP32 Board parameters:
+* Port: Select the COM port to which your ESP32 is connected.
+* Flash Frequency: 80 MHz
+* Upload Speed: 921600 (you can adjust this based on your setup)
