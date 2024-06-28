@@ -52,8 +52,6 @@ Features:
 * In the FET module, the input and output are completely isolated from each other.
 * Signal trigger terminal: digital high and low level. Can be connected to the microcontroller IO port, PLC interface, DC power supply, etc.
 * The output can control high-power equipment, motors, bulbs, LED strips, DC motors, micro pumps, solenoid valves, etc.
-* Using the original F5305S power FET, you can input PWM, control motor speed, the brightness of the lamp, etc.
-* Trigger signal: digital high/weak signal, can be connected to IO microcontroller, plc interface, DC power supply, and so on.
 * Output data can control powerful devices: motor, light bulb, light and strips, DC motor, small pumps, solenoid valve.
 
 <img src="/docs/mosfet.jpg" width="400">
@@ -76,8 +74,6 @@ Components of a Big Bore Kit:
 * Piston: A piston that matches the new cylinder bore size.
 * Piston Rings: Corresponding rings for the new piston.
 * Gaskets: New head and base gaskets to ensure a proper seal.
-* Wrist Pin: A wrist pin (also known as a gudgeon pin) to connect the piston to the connecting rod.
-* Circlips: Circlips to secure the wrist pin in place.
 
 ### Exhaust without catalytic converter
 
