@@ -3,7 +3,7 @@
 I start created my own piggyback module that will delay closing the injector for my EFI moped.
 DIY piggyback solution on one injector for an EFI engine running with an existing ECU.
 
-It does this by:
+#### It does this by:
 
 1. Taking the injector input from the **ECU** using a EV1 male and female connector and a **PC817 Optocoupler**
 2. Monitoring the opening and closing of the injector using **Arduino ESP32 CH340** board
@@ -11,11 +11,17 @@ It does this by:
 4. The injector is then closed and open using **F5305S Power Mosfet Module** that can react very quickly to changes.
 5. The user can select to apply a delay of 25%, 35% or 45% 
 
-Preconditions:
+#### Preconditions:
 
 1. Increase engine capacity. For e.g. increase 139fmb engine from 50cc to 72cc.
 2. Upgrate your exhaust. For e.g. remove the catalytic converter from the exhaust and obstruct the lambda sensor entry.
 3. Unlocked your ECU engine controller. For e.g. unrestricted ECU engine controller for Barton Volcano Euro 5.
+
+#### Examples of the piggyback module in action:
+
+<img src="/docs/Injector-duty-cycle-45-piggyback-setup-june-2024.png" height="400">
+
+Based on the [data collected while running for 35 minutes.](/docs/serial-data-june-2024.csv)
 
 ### Piggyback the existing Injector signal comming from ECU
 
