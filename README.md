@@ -3,9 +3,9 @@
 I start created my own piggyback module that will delay closing the injector for my EFI moped.
 DIY piggyback solution on one injector for an EFI engine running with an existing ECU.
 
-<img align="right" src="/docs/barton-volcano-50cc.jpg" width="330" />
-
 #### It does this by:
+
+<img align="right" src="/docs/barton-volcano-50cc.jpg" width="330" />
 
 1. Taking the injector input from the **ECU** using a EV1 male and female connector and a **PC817 Optocoupler**
 2. Monitoring the opening and closing of the injector using **Arduino ESP32 CH340** board
