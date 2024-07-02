@@ -25,7 +25,8 @@ DIY piggyback solution on one injector for an EFI engine running with an existin
 
 Based on the [data collected while running for 35 minutes.](/docs/serial-data-june-2024.csv)
 
-https://youtu.be/03AhqZIt5jw?si=HWsEYymSB0r5tzyL
+### Youtube video
+[![My video](https://i.ytimg.com/vi/03AhqZIt5jw/0.jpg)](https://youtu.be/03AhqZIt5jw "My Video")
 
 ### EV1 male and female connector to piggyback the existing Injector signal comming from ECU
 
