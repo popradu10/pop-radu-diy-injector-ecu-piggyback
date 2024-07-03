@@ -18,6 +18,7 @@ DIY piggyback solution on one injector for an EFI engine running with an existin
 1. Increase engine capacity. For e.g. increase 139fmb engine from 50cc to 72cc.
 2. Upgrate your exhaust. For e.g. remove the catalytic converter from the exhaust and obstruct the lambda sensor entry.
 3. Unlocked your ECU engine controller. For e.g. unrestricted ECU engine controller for Barton Volcano Euro 5.
+4. Upgrade Front Pin tooth count.
 
 #### Examples of the piggyback module in action:
 
@@ -108,6 +109,17 @@ Unlocking an ECU (Engine Control Unit) typically refers to modifying or reprogra
 
 Ensure your vehicle’s ECU can be unlocked and that there are compatible tuning solutions available.
 Regularly monitor engine parameters to prevent overheating, detonation, or other issues.
+
+### Upgrade front pinion from 12T to 14T or 16T
+
+Upgrading the front sprocket (also known as the front pin or front chainring) from a 12-tooth (12T) to a 14-tooth (14T) on a motorcycle will affect several aspects of the bike's performance:
+
+* Top Speed Increase: A larger front sprocket will result in a higher top speed. This is because each rotation of the front sprocket will move the chain further, resulting in more wheel rotations per engine rotation.
+* Acceleration Decrease: Conversely, with a larger front sprocket, the motorcycle will have a slower acceleration. The engine will need to work harder to turn the wheel, reducing the bike's ability to accelerate quickly.
+* Engine RPM: At any given speed, the engine RPM will be lower with a larger front sprocket. This can reduce engine wear and improve fuel efficiency.
+* Torque: The torque at the rear wheel will decrease, as the mechanical advantage is reduced with a larger front sprocket.
+
+<img src="/docs/pinion-428-14T.jpg" width="400">
 
 ### Arduiono IDE with esp32 espressif library v2.x.x
 
