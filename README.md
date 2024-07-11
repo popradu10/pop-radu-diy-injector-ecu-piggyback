@@ -1,6 +1,6 @@
 ## Pop Radu - DIY Injector ECU Piggyback 
 
-I start created my own piggyback module that will delay closing the injector for my EFI moped.
+I start created [my own piggyback module](#module) that will delay closing the injector for my EFI moped.
 DIY piggyback solution on one injector for an EFI engine running with an existing ECU.
 
 #### It does this by:
