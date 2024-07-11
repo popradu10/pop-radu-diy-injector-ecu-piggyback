@@ -20,6 +20,15 @@ DIY piggyback solution on one injector for an EFI engine running with an existin
 3. Unlocked your ECU engine controller. For e.g. unrestricted ECU engine controller for Barton Volcano Euro 5.
 4. Upgrade Front Pin tooth count.
 
+#### DIY injector piggyback module:
+
+<p>
+<img src="/docs/diy_injector_piggyback_a.jpg" width="800">
+</p>
+<p>
+<img align="left" src="/docs/diy_injector_piggyback_b.jpg" height="200"> <img src="/docs/diy_injector_piggyback_c.jpg" height="200">
+</p>
+
 #### Examples of the piggyback module in action:
 
 <img src="/docs/Injector-duty-cycle-45-piggyback-setup-june-2024.png" height="400">
