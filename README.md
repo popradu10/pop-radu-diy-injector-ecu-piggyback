@@ -22,7 +22,7 @@ DIY piggyback solution on one injector for an EFI engine running with an existin
 
 #### DIY injector piggyback module:
 
-<p>
+<p name=module>
 <img src="/docs/diy_injector_piggyback_a.jpg" width="800">
 </p>
 <p>
