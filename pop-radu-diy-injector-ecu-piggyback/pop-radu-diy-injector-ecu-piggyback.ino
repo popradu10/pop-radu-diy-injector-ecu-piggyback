@@ -16,9 +16,9 @@ uint16_t indexToComputeInjectorDutyCycleAvg = 0;
 uint16_t injectorDutyCyclePercentageAvg = 0;
 
 //delay percentage we can select one of this value using switch or jumper
-const int DELAY_PERCENTAGE_LEVEL_0 = 25;
-const int DELAY_PERCENTAGE_LEVEL_1 = 35;
-const int DELAY_PERCENTAGE_LEVEL_2 = 45;
+const int DELAY_PERCENTAGE_LEVEL_0 = 45;
+const int DELAY_PERCENTAGE_LEVEL_1 = 25;
+const int DELAY_PERCENTAGE_LEVEL_2 = 35;
 //default delay percentage if no switch or jumper is added to the pins bellow.
 unsigned int delayPercentage = DELAY_PERCENTAGE_LEVEL_0;
 
