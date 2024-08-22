@@ -1,6 +1,6 @@
 ## Pop Radu - DIY Injector ECU Piggyback 
 
-I start created my own piggyback module that will delay closing the injector for my EFI moped.
+I start created [my own piggyback module](#module) that will delay closing the injector for my EFI moped.
 DIY piggyback solution on one injector for an EFI engine running with an existing ECU.
 
 #### It does this by:
@@ -19,6 +19,15 @@ DIY piggyback solution on one injector for an EFI engine running with an existin
 2. Upgrate your exhaust. For e.g. remove the catalytic converter from the exhaust and obstruct the lambda sensor entry.
 3. Unlocked your ECU engine controller. For e.g. unrestricted ECU engine controller for Barton Volcano Euro 5.
 4. Upgrade Front Pin tooth count.
+
+#### DIY injector piggyback module:
+
+<p name=module>
+<img src="/docs/diy_injector_piggyback_a.jpg" width="800">
+</p>
+<p>
+<img align="left" src="/docs/diy_injector_piggyback_b.jpg" height="200"> <img src="/docs/diy_injector_piggyback_c.jpg" height="200">
+</p>
 
 #### Examples of the piggyback module in action:
 
