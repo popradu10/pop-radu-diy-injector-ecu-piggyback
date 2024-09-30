@@ -74,9 +74,6 @@ void loop() {
       digitalWrite(GPIO_InjectorOUT, HIGH);
       onFromECUInjectorMicroSeconds = readAndResetTimer();
 
-      //,ake sure we prepare for the next trigger
-      delayToOpenTrigger = false;
-
       //if the real injector was not open at all because of the opening delay
       if (delayToOpenRealInjectorMicroSeconds > onFromECUInjectorMicroSeconds) {
         warnCount++;
@@ -101,10 +98,12 @@ void loop() {
 }
 
 unsigned long readAndResetTimer() {
+  //make sure we prepare for the next trigger
+  delayToOpenTrigger = false;
   Timer1.stop();
   unsigned long tmp = microSecondsCount;
-  Timer1.start();
   microSecondsCount = 0;
+  Timer1.start();
   return tmp;
 }
 
