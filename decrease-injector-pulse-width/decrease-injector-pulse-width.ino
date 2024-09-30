@@ -6,8 +6,8 @@ const int DELAY_PERCENTAGE_LEVEL = 50;
 unsigned int delayPercentage = DELAY_PERCENTAGE_LEVEL;
 
 //piggyback injector pins
-uint8_t GPIO_InjectorIN = 25;
-uint8_t GPIO_InjectorOUT = 26;
+uint8_t GPIO_InjectorIN = A0;
+uint8_t GPIO_InjectorOUT = A2;
 
 //loops variables used to count how much time the injector is open by ECU
 //and how much to delay the injector output
@@ -25,11 +25,14 @@ void setup() {
   Serial.begin(115200); /* initialise serial communication */
   pinMode(GPIO_InjectorIN, INPUT_PULLUP);
   pinMode(GPIO_InjectorOUT, OUTPUT);
-  pinMode(LED_BUILTIN, OUTPUT);
+  // pinMode(LED_BUILTIN_RX, OUTPUT);
+  // pinMode(LED_BUILTIN_TX, OUTPUT);
   digitalWrite(GPIO_InjectorOUT, HIGH);  // turn the injector OFF (HIGH)
-  digitalWrite(LED_BUILTIN, HIGH);
+  // digitalWrite(LED_BUILTIN_RX, HIGH);
+  // digitalWrite(LED_BUILTIN_TX, HIGH);
   delay(1200);
-  digitalWrite(LED_BUILTIN, LOW);
+  // digitalWrite(LED_BUILTIN_RX, LOW);
+  // digitalWrite(LED_BUILTIN_TX, HIGH);
   infoPrint();
 }
 
@@ -38,7 +41,7 @@ void loop() {
   if (injectorIn == LOW) {
     //the input is negative, meaning that the ECU want's to open the injector
     if (loopsOnFromECUInjectorCount == 0) {
-      digitalWrite(LED_BUILTIN, HIGH);
+      // digitalWrite(LED_BUILTIN_RX, HIGH);
 
       //display debuging information
       Serial.print(",");
@@ -46,13 +49,13 @@ void loop() {
       Serial.print(",");
       Serial.println(warnCount);
       
-      //reset the values for the off and delay
+      //reset the values for the off
       loopsOffFromECUInjectorCount = 0;
-      loopsDelayToOpenRealInjectorCount = 0;
     }
     if (loopsDelayToOpenRealInjectorCount == loopsOnFromECUInjectorCount) {
       //open the real injector output (LOW) only after some time
       digitalWrite(GPIO_InjectorOUT, LOW);
+      // digitalWrite(LED_BUILTIN_TX, HIGH);
     } 
     //count how many loops the ECU injector pin open
     loopsOnFromECUInjectorCount++;
@@ -60,10 +63,11 @@ void loop() {
     if (loopsOffFromECUInjectorCount == 0) {
       //if the ECU closes the injector input, will also close the output
       digitalWrite(GPIO_InjectorOUT, HIGH);
-      digitalWrite(LED_BUILTIN, LOW);     
+      // digitalWrite(LED_BUILTIN_RX, LOW);     
+      // digitalWrite(LED_BUILTIN_TX, LOW);     
       
       //if the real injector was not open at all because of the opening delay
-      if (loopsDelayToOpenRealInjectorCount < loopsOnFromECUInjectorCount){
+      if (loopsDelayToOpenRealInjectorCount > loopsOnFromECUInjectorCount){
         warnCount++;
       }
 
