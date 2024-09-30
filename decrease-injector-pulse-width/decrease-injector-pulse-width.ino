@@ -1,38 +1,45 @@
+#include <TimerOne.h>
 
-//delay percentage 
+//delay percentage
 const int DELAY_PERCENTAGE_LEVEL = 50;
-
-//default delay percentage if no switch or jumper is added to the pins bellow.
-unsigned int delayPercentage = DELAY_PERCENTAGE_LEVEL;
 
 //piggyback injector pins
 uint8_t GPIO_InjectorIN = A0;
 uint8_t GPIO_InjectorOUT = A2;
 
-//loops variables used to count how much time the injector is open by ECU
+//variables used to count how much time the injector is open by ECU
 //and how much to delay the injector output
-unsigned long loopsOnFromECUInjectorCount = 0;
-unsigned long loopsDelayToOpenRealInjectorCount = 1000;
-unsigned long loopsOffFromECUInjectorCount = 0;
+unsigned long onFromECUInjectorMicroSeconds = 0;
+unsigned long offFromECUInjectorMicroSeconds = 0;
+unsigned long delayToOpenRealInjectorMicroSeconds = 1000;
+volatile unsigned long microSecondsCount = 0;
+volatile boolean delayToOpenTrigger = false;
 
-//onboard led and variables used for debuging
+boolean firstTimeOnInjectorEcu = true;
+boolean firstTimeOffInjectorEcu = true;
+
 unsigned long warnCount = 0;
 
 void infoPrint();
-unsigned long computeLoopsToDelay();
+unsigned long computeMiCroSecondsToDelay();
+unsigned long readTimer();
+
+void Timer1_ISR(void) {
+  if (microSecondsCount == delayToOpenRealInjectorMicroSeconds) {
+    delayToOpenTrigger = true;
+  }
+  microSecondsCount += 1;
+}
 
 void setup() {
+  Timer1.initialize(100);  // Fire An Interrupt Every 0.1milliseconds
+  Timer1.attachInterrupt(Timer1_ISR);
+
   Serial.begin(115200); /* initialise serial communication */
   pinMode(GPIO_InjectorIN, INPUT_PULLUP);
   pinMode(GPIO_InjectorOUT, OUTPUT);
-  // pinMode(LED_BUILTIN_RX, OUTPUT);
-  // pinMode(LED_BUILTIN_TX, OUTPUT);
   digitalWrite(GPIO_InjectorOUT, HIGH);  // turn the injector OFF (HIGH)
-  // digitalWrite(LED_BUILTIN_RX, HIGH);
-  // digitalWrite(LED_BUILTIN_TX, HIGH);
   delay(1200);
-  // digitalWrite(LED_BUILTIN_RX, LOW);
-  // digitalWrite(LED_BUILTIN_TX, HIGH);
   infoPrint();
 }
 
@@ -40,59 +47,70 @@ void loop() {
   int injectorIn = digitalRead(GPIO_InjectorIN);
   if (injectorIn == LOW) {
     //the input is negative, meaning that the ECU want's to open the injector
-    if (loopsOnFromECUInjectorCount == 0) {
-      // digitalWrite(LED_BUILTIN_RX, HIGH);
+    if (firstTimeOnInjectorEcu) {
+      offFromECUInjectorMicroSeconds = readAndResetTimer();
 
       //display debuging information
       Serial.print(",");
-      Serial.print(loopsOffFromECUInjectorCount);
+      Serial.print(offFromECUInjectorMicroSeconds);
       Serial.print(",");
       Serial.println(warnCount);
-      
-      //reset the values for the off
-      loopsOffFromECUInjectorCount = 0;
+
+      //first time on took place already
+      firstTimeOnInjectorEcu=false;
+      //reset the value for the first time off
+      firstTimeOffInjectorEcu=true;
     }
-    if (loopsDelayToOpenRealInjectorCount == loopsOnFromECUInjectorCount) {
+
+    if (delayToOpenTrigger) {
       //open the real injector output (LOW) only after some time
       digitalWrite(GPIO_InjectorOUT, LOW);
-      // digitalWrite(LED_BUILTIN_TX, HIGH);
-    } 
-    //count how many loops the ECU injector pin open
-    loopsOnFromECUInjectorCount++;
+      delayToOpenTrigger = false;
+    }
+    
   } else {
-    if (loopsOffFromECUInjectorCount == 0) {
+    if (firstTimeOffInjectorEcu) {
       //if the ECU closes the injector input, will also close the output
       digitalWrite(GPIO_InjectorOUT, HIGH);
-      // digitalWrite(LED_BUILTIN_RX, LOW);     
-      // digitalWrite(LED_BUILTIN_TX, LOW);     
-      
+      onFromECUInjectorMicroSeconds = readAndResetTimer();
+
+      //,ake sure we prepare for the next trigger
+      delayToOpenTrigger = false;
+
       //if the real injector was not open at all because of the opening delay
-      if (loopsDelayToOpenRealInjectorCount > loopsOnFromECUInjectorCount){
+      if (delayToOpenRealInjectorMicroSeconds > onFromECUInjectorMicroSeconds) {
         warnCount++;
       }
 
+      //compute the next delay based on how many loops the injector ECU input was open
+      delayToOpenRealInjectorMicroSeconds = computeMiCroSecondsToDelay();
+
       //display debuging information
       Serial.print(",");
-      Serial.print(delayPercentage);
+      Serial.print(DELAY_PERCENTAGE_LEVEL);
       Serial.print("%,");
-      Serial.print(loopsOnFromECUInjectorCount);
+      Serial.print(onFromECUInjectorMicroSeconds);
       Serial.print(",");
-      Serial.print(loopsDelayToOpenRealInjectorCount);
-      
-      //compute the next delay based on how many loops the injector ECU input was open
-      loopsDelayToOpenRealInjectorCount = computeLoopsToDelay();
-      //reset the value for the on injector ECU input
-      loopsOnFromECUInjectorCount = 0;
+      Serial.print(delayToOpenRealInjectorMicroSeconds);
+
+      //reset the values
+      firstTimeOnInjectorEcu=true;
+      firstTimeOffInjectorEcu=false;
     }
-   
-    //count how many loops the injector was closed
-    loopsOffFromECUInjectorCount++;
   }
 }
 
-unsigned long computeLoopsToDelay() {
-  if (delayPercentage > 0) {
-    return (long)(loopsOnFromECUInjectorCount * delayPercentage) / 100;
+unsigned long readAndResetTimer() {
+  Timer1.stop();
+  unsigned long tmp = microSecondsCount;
+  Timer1.start();
+  microSecondsCount = 0;
+  return tmp;
+}
+
+unsigned long computeMiCroSecondsToDelay() {
+  if (DELAY_PERCENTAGE_LEVEL > 0) {
+    return (long)(onFromECUInjectorMicroSeconds * DELAY_PERCENTAGE_LEVEL) / 100;
   }
   return 0;
 }
@@ -101,5 +119,5 @@ unsigned long computeLoopsToDelay() {
 void infoPrint() {
   Serial.println("All good.");
   Serial.println("Good luck.");
-  Serial.println(",DelayPercentage,LoopOnInjectorECU,LoopToDelayOnInjector,LoopOffInjectorECU,WarnCounts");
+  Serial.println(",DelayPercentage,OnInjectorECU,ToDelayOnInjector,OffInjectorECU,WarnCounts");
 }
