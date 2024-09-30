@@ -32,7 +32,7 @@ void Timer1_ISR(void) {
 }
 
 void setup() {
-  Timer1.initialize(100);  // Fire An Interrupt Every 0.1milliseconds
+  Timer1.initialize(10);  // Fire An Interrupt Every 0.01milliseconds
   Timer1.attachInterrupt(Timer1_ISR);
 
   Serial.begin(115200); /* initialise serial communication */
