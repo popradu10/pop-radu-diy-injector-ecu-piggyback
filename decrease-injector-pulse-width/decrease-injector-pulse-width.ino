@@ -14,6 +14,7 @@ unsigned long offFromECUInjectorMicroSeconds = 0;
 unsigned long delayToOpenRealInjectorMicroSeconds = 1000;
 volatile unsigned long microSecondsCount = 0;
 volatile boolean delayToOpenTrigger = false;
+byte newDutyCycle = 0;
 
 boolean firstTimeOnInjectorEcu = true;
 boolean firstTimeOffInjectorEcu = true;
@@ -23,12 +24,13 @@ unsigned long warnCount = 0;
 void infoPrint();
 unsigned long computeMiCroSecondsToDelay();
 unsigned long readTimer();
+byte computeNewDutyCycle();
 
 void Timer1_ISR(void) {
   if (microSecondsCount == delayToOpenRealInjectorMicroSeconds) {
     delayToOpenTrigger = true;
   }
-  microSecondsCount += 1;
+  microSecondsCount += 10;
 }
 
 void setup() {
@@ -53,21 +55,28 @@ void loop() {
       //display debuging information
       Serial.print(",");
       Serial.print(offFromECUInjectorMicroSeconds);
-      Serial.print(",");
-      Serial.println(warnCount);
 
       //first time on took place already
-      firstTimeOnInjectorEcu=false;
+      firstTimeOnInjectorEcu = false;
       //reset the value for the first time off
-      firstTimeOffInjectorEcu=true;
+      firstTimeOffInjectorEcu = true;
     }
 
     if (delayToOpenTrigger) {
       //open the real injector output (LOW) only after some time
       digitalWrite(GPIO_InjectorOUT, LOW);
       delayToOpenTrigger = false;
+
+      //compute the new dutty cycle
+      newDutyCycle = computeNewDutyCycle();
+
+      //display debuging information
+      Serial.print(",");
+      Serial.print(newDutyCycle);
+      Serial.print("%,");
+      Serial.println(warnCount);
     }
-    
+
   } else {
     if (firstTimeOffInjectorEcu) {
       //if the ECU closes the injector input, will also close the output
@@ -77,6 +86,9 @@ void loop() {
       //if the real injector was not open at all because of the opening delay
       if (delayToOpenRealInjectorMicroSeconds > onFromECUInjectorMicroSeconds) {
         warnCount++;
+        //display debuging information
+        Serial.print(",0%,");  //the new dutty cycle
+        Serial.println(warnCount);
       }
 
       //compute the next delay based on how many loops the injector ECU input was open
@@ -91,9 +103,17 @@ void loop() {
       Serial.print(delayToOpenRealInjectorMicroSeconds);
 
       //reset the values
-      firstTimeOnInjectorEcu=true;
-      firstTimeOffInjectorEcu=false;
+      firstTimeOnInjectorEcu = true;
+      firstTimeOffInjectorEcu = false;
     }
+  }
+}
+
+byte computeNewDutyCycle() {
+  if (((onFromECUInjectorMicroSeconds - delayToOpenRealInjectorMicroSeconds) + offFromECUInjectorMicroSeconds) != 0) {
+    return (byte)(((float)(onFromECUInjectorMicroSeconds - delayToOpenRealInjectorMicroSeconds)) / ((onFromECUInjectorMicroSeconds - delayToOpenRealInjectorMicroSeconds) + offFromECUInjectorMicroSeconds) * 100);
+  } else {
+    return 0;
   }
 }
 
@@ -109,7 +129,8 @@ unsigned long readAndResetTimer() {
 
 unsigned long computeMiCroSecondsToDelay() {
   if (DELAY_PERCENTAGE_LEVEL > 0) {
-    return (long)(onFromECUInjectorMicroSeconds * DELAY_PERCENTAGE_LEVEL) / 100;
+    //make sure to round up at 10s of microseconds
+    return (long)((onFromECUInjectorMicroSeconds * DELAY_PERCENTAGE_LEVEL) / 1000) * 10;
   }
   return 0;
 }
