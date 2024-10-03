@@ -11,7 +11,7 @@ uint8_t GPIO_InjectorOUT = A2;
 //and how much to delay the injector output
 unsigned long onFromECUInjectorMicroSeconds = 0;
 unsigned long offFromECUInjectorMicroSeconds = 0;
-unsigned long delayToOpenRealInjectorMicroSeconds = 1000;
+unsigned long delayToOpenRealInjectorMicroSeconds = 12000;
 volatile unsigned long microSecondsCount = 0;
 volatile boolean delayToOpenTrigger = false;
 byte newDutyCycle = 0;
