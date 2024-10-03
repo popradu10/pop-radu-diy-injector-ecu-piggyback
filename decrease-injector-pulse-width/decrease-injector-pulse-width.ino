@@ -1,7 +1,7 @@
 #include <TimerOne.h>
 
 //delay percentage
-const int DELAY_PERCENTAGE_LEVEL = 50;
+const int DELAY_PERCENTAGE_LEVEL = 0;
 
 //piggyback injector pins
 uint8_t GPIO_InjectorIN = A0;
@@ -40,7 +40,7 @@ void setup() {
   Serial.begin(115200); /* initialise serial communication */
   pinMode(GPIO_InjectorIN, INPUT_PULLUP);
   pinMode(GPIO_InjectorOUT, OUTPUT);
-  digitalWrite(GPIO_InjectorOUT, HIGH);  // turn the injector OFF (HIGH)
+  digitalWrite(GPIO_InjectorOUT, LOW);  // turn the injector OFF (HIGH)
   delay(1200);
   infoPrint();
 }
@@ -64,7 +64,7 @@ void loop() {
 
     if (delayToOpenTrigger) {
       //open the real injector output (LOW) only after some time
-      digitalWrite(GPIO_InjectorOUT, LOW);
+      digitalWrite(GPIO_InjectorOUT, HIGH);
       delayToOpenTrigger = false;
 
       //compute the new dutty cycle
@@ -80,7 +80,7 @@ void loop() {
   } else {
     if (firstTimeOffInjectorEcu) {
       //if the ECU closes the injector input, will also close the output
-      digitalWrite(GPIO_InjectorOUT, HIGH);
+      digitalWrite(GPIO_InjectorOUT, LOW);
       onFromECUInjectorMicroSeconds = readAndResetTimer();
 
       //if the real injector was not open at all because of the opening delay
