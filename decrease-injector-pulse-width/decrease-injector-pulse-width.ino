@@ -67,10 +67,10 @@ void loop() {
       digitalWrite(GPIO_InjectorOUT, HIGH);
       delayToOpenTrigger = false;
 
-      //compute the new dutty cycle
+      //compute the new duty cycle
       newDutyCycle = computeNewDutyCycle();
 
-      //display debuging information
+      //display debugging information
       Serial.print(",");
       Serial.print(newDutyCycle);
       Serial.print("%,");
@@ -86,7 +86,7 @@ void loop() {
       //if the real injector was not open at all because of the opening delay
       if (delayToOpenRealInjectorMicroSeconds > onFromECUInjectorMicroSeconds) {
         warnCount++;
-        //display debuging information
+        //display debugging information
         Serial.print(",0%,");  //the new dutty cycle
         Serial.println(warnCount);
       }
@@ -94,7 +94,7 @@ void loop() {
       //compute the next delay based on how many loops the injector ECU input was open
       delayToOpenRealInjectorMicroSeconds = computeMiCroSecondsToDelay();
 
-      //display debuging information
+      //display debugging information
       Serial.print(",");
       Serial.print(DELAY_PERCENTAGE_LEVEL);
       Serial.print("%,");
