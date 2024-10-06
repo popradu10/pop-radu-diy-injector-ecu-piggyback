@@ -119,8 +119,9 @@ byte computeNewDutyCycle() {
 
 unsigned long readAndResetTimer() {
   //make sure we prepare for the next trigger
-  delayToOpenTrigger = false;
   Timer1.stop();
+  //reset also the triggers when restart the counter
+  delayToOpenTrigger = false;
   unsigned long tmp = microSecondsCount;
   microSecondsCount = 0;
   Timer1.start();
