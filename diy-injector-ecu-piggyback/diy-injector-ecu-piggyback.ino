@@ -2,6 +2,8 @@
 
 //delay percentage
 const int DELAY_PERCENTAGE_LEVEL = 0;
+const int INIT_DELAY_ON_MICRO_SECONDS = 12000;
+//TODO const int MAX_ON_INJECTOR_MICRO_SECONDS = 12000;
 
 //piggyback injector pins
 uint8_t GPIO_InjectorIN = A0;
@@ -11,9 +13,11 @@ uint8_t GPIO_InjectorOUT = A2;
 //and how much to delay the injector output
 unsigned long onFromECUInjectorMicroSeconds = 0;
 unsigned long offFromECUInjectorMicroSeconds = 0;
-unsigned long delayToOpenRealInjectorMicroSeconds = 12000;
+unsigned long delayToOpenRealInjectorMicroSeconds = INIT_DELAY_ON_MICRO_SECONDS;
+unsigned long delayToCloseRealInjectorMicroSeconds = 0;
 volatile unsigned long microSecondsCount = 0;
 volatile boolean delayToOpenTrigger = false;
+//TODO volatile boolean closeInjectorEarlierTrigger = false;
 byte newDutyCycle = 0;
 
 boolean firstTimeOnInjectorEcu = true;
