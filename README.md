@@ -1,6 +1,6 @@
 ## Pop Radu - DIY Injector ECU Piggyback 
 
-I start created [my own piggyback module](#module) that will delay closing the injector for my EFI moped.
+I start created [my own piggyback module](#module) that will delay opening the injector for my EFI moped as I install a larger injector.
 DIY piggyback solution on one injector for an EFI engine running with an existing ECU.
 
 #### It does this by:
@@ -8,17 +8,18 @@ DIY piggyback solution on one injector for an EFI engine running with an existin
 <img align="right" src="/docs/barton-volcano-50cc.jpg" width="330" />
 
 1. Taking the injector input from the **ECU** using a EV1 male and female connector and a **PC817 Optocoupler**
-2. Monitoring the opening and closing of the injector using **Arduino ESP32 CH340** board
-3. Delay closing the injector, the delay is computed proportional using **Arduino ESP32 CH340** and the [arduino code from here.](old/pop-radu-diy-injector-ecu-piggyback/pop-radu-diy-injector-ecu-piggyback.ino) Using the esp32 espressif library v2.x.x .
-4. The injector is then closed and open using **F5305S Power Mosfet Module** that can react very quickly to changes.
-5. The user can select to apply a delay of 25%, 35% or 45% 
+2. Monitoring the opening and closing of the injector using **Arduino Micro Pro** board
+3. Delay opening the injector, the delay is computed proportional using **Arduino Micro Pro** and the [arduino code from here.](diy-injector-ecu-piggyback/diy-injector-ecu-piggyback.ino) using the TimerOne library v1.1 for counting microseconds. 
+4. The injector is then closed and open using **IRF520 Mosfet Driver Module** that can react very quickly to changes.
+5. We can set the delay percentage in the arduino code. 
 
 #### Preconditions:
 
 1. Increase engine capacity. For e.g. increase 139fmb engine from 50cc to 72cc.
-2. Upgrate your exhaust. For e.g. remove the catalytic converter from the exhaust and obstruct the lambda sensor entry.
-3. Unlocked your ECU engine controller. For e.g. unrestricted ECU engine controller for Barton Volcano Euro 5.
-4. Upgrade Front Pin tooth count.
+2. Upgrade the injector, bigger injector. For e.g. from a stock 2 hole injector to a 3 hole injector. 
+3. Upgrade your exhaust. For e.g. remove the catalytic converter from the exhaust.
+4. Unlocked your ECU engine controller. For e.g. get a ECU without rev limitation for Barton Volcano Euro 5.
+5. Upgrade Front Pin tooth count.
 
 #### DIY injector piggyback module:
 
@@ -55,36 +56,31 @@ Details:
 * Driving Port Signal Voltage: 3.6-24V
 * Output Port Voltage Port: 3.6-30V
 
-### NODEMCU Arduino ESP32 CH340
+### Arduino Micro Pro
 
-The NODEMCU Arduino ESP32 CH340 is a development board based on the ESP32 microcontroller.
+The Arduino Micro is a microcontroller board based on the ATmega32U4 microcontroller. It is compact and designed for embedded projects where small size is critical.
 
-<img src="/docs/NodeMCU-ESP32.png" width="400">
-
-Specifications:
-
-* Core: Dual-core Tensilica LX6 microprocessor
-* Clock Speed: Up to 240 MHz
-* RAM: 520 KB SRAM
-* Flash Memory: 4 MB (varies by model)
-* Wireless: Integrated 802.11 b/g/n Wi-Fi and Bluetooth 4.2 (including BLE)
-
-### F5305S Power Mosfet Module
-
-Features:
-
-* In the FET module, the input and output are completely isolated from each other.
-* Signal trigger terminal: digital high and low level. Can be connected to the microcontroller IO port, PLC interface, DC power supply, etc.
-* The output can control high-power equipment, motors, bulbs, LED strips, DC motors, micro pumps, solenoid valves, etc.
-* Output data can control powerful devices: motor, light bulb, light and strips, DC motor, small pumps, solenoid valve.
-
-<img src="/docs/mosfet.jpg" width="400">
+<img src="/docs/arduino_micro_board.png" width="400">
 
 Specifications:
 
-* Input Voltage (V): 3 ~ 20
-* Input Current: 5mA
-* Output Voltage(V): 5 ~ 35
+* Clock Speed: 16 MHz
+* RAM: 2.5 KB
+* Flash Memory: 32 KB
+* Operating Voltage: 5V
+
+### IRF520 Mosfet Driver Module
+
+The IRF520 MOSFET Driver Module is a simple and widely used electronic component for switching high-power loads using a microcontroller or other low-voltage control systems. This module utilizes the IRF520 N-channel MOSFET, which can be controlled via a low-voltage signal to switch higher voltage and current loads.
+
+<img src="/docs/IRF520_mosfet_module.jpg" width="400">
+
+Specifications:
+
+* Input Voltage (V): the module is designed to accept control signals from 3.3V or 5V logic, making it compatible with a wide range of microcontrollers like Arduino, Raspberry Pi, and other development boards.
+* Output Voltage(V): typically up to 24V DC
+
+The IRF520 MOSFET Driver Module is a useful tool for controlling high-power DC loads using a simple, low-power control signal. However, for more efficient or advanced applications, especially with logic-level microcontrollers, consider using MOSFETs better suited for low-voltage gate control.
 
 ### Increase cylinder capacity kit 139fmb 72cc
 
@@ -130,14 +126,12 @@ Upgrading the front sprocket (also known as the front pin or front chainring) fr
 
 <img src="/docs/pinion-428-14T.jpg" width="400">
 
-### Arduiono IDE with esp32 espressif library v2.x.x
+### Arduiono IDE with TimeOut library version 1.1.1
 
-Set up the Arduino IDE with the ESP32 Espressif library version 2.x.x .
+Set up the Arduino IDE with the TimeOut library version 1.1.1:
 
-<img src="/docs/arduino-idee-esp32 v2.x.jpg" width="400">
+<img src="/docs/arduino-idee-timeone.jpg" width="400">
 
-You should have the Arduino IDE set up with the ESP32 Espressif library version 2.x.x successfully.
-Writing the code to your ESP32 Board parameters:
-* Port: Select the COM port to which your ESP32 is connected.
-* Flash Frequency: 80 MHz
-* Upload Speed: 921600 (you can adjust this based on your setup)
+You should have the Arduino IDE set up with the TimeOut library version 1.1.1 successfully.
+Writing the code to your Arduino Micro Pro Board parameters:
+* Port: Select the COM port to which your Arduino Micro Pro Board is connected.
