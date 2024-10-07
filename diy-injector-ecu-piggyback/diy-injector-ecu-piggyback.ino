@@ -1,7 +1,7 @@
 #include <TimerOne.h>
 
 //delay percentage
-const int DELAY_PERCENTAGE_LEVEL = 0;
+const int DELAY_PERCENTAGE_LEVEL = 50;
 const int INIT_DELAY_ON_MICRO_SECONDS = 12000;
 //TODO const int MAX_ON_INJECTOR_MICRO_SECONDS = 12000;
 
@@ -115,7 +115,7 @@ void loop() {
 
 byte computeNewDutyCycle() {
   if (((onFromECUInjectorMicroSeconds - delayToOpenRealInjectorMicroSeconds) + offFromECUInjectorMicroSeconds) != 0) {
-    return (byte)(((float)(onFromECUInjectorMicroSeconds - delayToOpenRealInjectorMicroSeconds)) / ((onFromECUInjectorMicroSeconds - delayToOpenRealInjectorMicroSeconds) + offFromECUInjectorMicroSeconds) * 100);
+    return (byte)(((float)(onFromECUInjectorMicroSeconds - delayToOpenRealInjectorMicroSeconds)) / ((onFromECUInjectorMicroSeconds - delayToOpenRealInjectorMicroSeconds) + (offFromECUInjectorMicroSeconds + delayToOpenRealInjectorMicroSeconds)) * 100);
   } else {
     return 0;
   }
