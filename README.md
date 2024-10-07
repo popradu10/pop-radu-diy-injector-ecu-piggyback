@@ -29,7 +29,7 @@ DIY piggyback solution on one injector for an EFI engine running with an existin
 <p>
 <img align="left" src="/docs/diy_injector_piggyback_arduino_micro_2.jpg" height="200"> <img src="/docs/diy_injector_piggyback_arduino_micro_3.jpg" height="200">
 <br>
-<img align="left" src="/docs/diy_injector_piggyback_arduino_micro_4.jpg" height="200"> <img src="/docs/diy_injector_piggyback_arduino_micro_4.jpg" height="200">
+<img align="left" src="/docs/diy_injector_piggyback_arduino_micro_4.jpg" height="200"> <img src="/docs/diy_injector_piggyback_arduino_micro_5.jpg" height="200">
 </p>
 
 #### Examples of the piggyback module in action:
