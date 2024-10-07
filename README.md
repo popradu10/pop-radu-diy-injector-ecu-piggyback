@@ -146,12 +146,12 @@ Upgrading the front sprocket (also known as the front pin or front chainring) fr
 
 <img src="/docs/pinion-428-14T.jpg" width="400">
 
-### Arduiono IDE with TimeOut library version 1.1.1
+### Arduiono IDE with TimerOne library version 1.1.1
 
-Set up the Arduino IDE with the TimeOut library version 1.1.1:
+Set up the Arduino IDE with the TimerOne library version 1.1.1:
 
-<img src="/docs/arduino-idee-timeone.jpg" width="400">
+<img src="/docs/arduino-idee-timerone.jpg" width="400">
 
-You should have the Arduino IDE set up with the TimeOut library version 1.1.1 successfully.
+You should have the Arduino IDE set up with the TimerOne library version 1.1.1 successfully.
 Writing the code to your Arduino Micro Pro Board parameters:
 * Port: Select the COM port to which your Arduino Micro Pro Board is connected.
