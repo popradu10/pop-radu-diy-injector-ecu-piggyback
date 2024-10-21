@@ -34,7 +34,7 @@ DIY piggyback solution on one injector for an EFI engine running with an existin
 
 <img src="/docs/start_50cc_engine_on_vs_off_injector_milliseconds.jpg" height="400">
 
-Based on the [data collected while running for 35 minutes.](/docs/datalog_oct_2024_50cc_0increase.csv)
+Based on the [data collected while starting the engine for 2 minutes.](/docs/datalog_oct_2024_50cc_0increase.csv)
 
 ### Youtube video
 
