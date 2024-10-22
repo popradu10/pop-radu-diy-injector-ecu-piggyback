@@ -30,6 +30,12 @@ DIY piggyback solution on one injector for an EFI engine running with an existin
 <img align="left" src="/docs/diy_injector_piggyback_arduino_micro_2.jpg" height="200"> <img src="/docs/diy_injector_piggyback_arduino_micro_3.jpg" height="200">
 </p>
 
+#### Wiring Circuit Diagram
+
+<img src="/docs/diy_wiring_diagram_ecu_piggyback.png" width="800">
+
+Based on circuit file [circuit_oct_2025.cddx](/docs/circuit_oct_2025.cddx) using [Circuit Diagram online editor](https://www.circuit-diagram.org/editor/open).
+
 #### Examples of the piggyback module with 0 increase or decrease
 
 <img src="/docs/start_50cc_engine_on_vs_off_injector_milliseconds.jpg" width="800">
