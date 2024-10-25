@@ -1,7 +1,7 @@
 ## Pop Radu - DIY Injector ECU Piggyback 
 
 I start created [my own piggyback module](#module) that will delay opening the injector for my EFI moped as I install a larger injector.
-DIY piggyback solution on one injector for an EFI engine running with an existing ECU.
+DIY [piggyback solution](#diagram) on one injector for an EFI engine running with an existing ECU.
 
 #### It does this by:
 
@@ -31,9 +31,9 @@ DIY piggyback solution on one injector for an EFI engine running with an existin
 </p>
 
 #### Wiring Circuit Diagram
-
+<p name=diagram>
 <img src="/docs/diy_wiring_diagram_ecu_piggyback.png" width="800">
-
+</p>
 Based on circuit file [circuit_oct_2025.cddx](/docs/circuit_oct_2025.cddx) using [Circuit Diagram online editor](https://www.circuit-diagram.org/editor/open).
 
 #### Examples of the piggyback module with 0 increase or decrease
