@@ -1,7 +1,7 @@
 ## Pop Radu - DIY Injector ECU Piggyback 
 
 I start created [my own piggyback module](#module) that will delay opening the injector for my EFI moped as I install a larger injector.
-DIY piggyback solution on one injector for an EFI engine running with an existing ECU.
+DIY [piggyback solution](#diagram) on one injector for an EFI engine running with an existing ECU.
 
 #### It does this by:
 
@@ -30,11 +30,19 @@ DIY piggyback solution on one injector for an EFI engine running with an existin
 <img align="left" src="/docs/diy_injector_piggyback_arduino_micro_2.jpg" height="200"> <img src="/docs/diy_injector_piggyback_arduino_micro_3.jpg" height="200">
 </p>
 
-#### Examples of the piggyback module in action:
+#### Wiring Circuit Diagram
+<p name=diagram>
+<img src="/docs/diy_wiring_diagram_ecu_piggyback.png" width="800">
+</p>
+Based on circuit file [circuit_oct_2025.cddx](/docs/circuit_oct_2025.cddx) using [Circuit Diagram online editor](https://www.circuit-diagram.org/editor/open).
 
-<img src="/docs/Injector-duty-cycle-45-piggyback-setup-june-2024.png" height="400">
+#### Examples of the piggyback module with 0 increase or decrease
 
-Based on the [data collected while running for 35 minutes.](/docs/serial-data-june-2024.csv)
+<img src="/docs/start_50cc_engine_on_vs_off_injector_milliseconds.jpg" width="800">
+
+<img src="/docs/Screenshot_20241020_181324_OBD-II.jpg" width="300"> <img src="/docs/Screenshot_20241020_181329_OBD-II.jpg" width="300">
+
+Based on the [data collected while starting the engine for 2 minutes.](/docs/datalog_oct_2024_50cc_0increase.csv)
 
 ### Youtube video
 
