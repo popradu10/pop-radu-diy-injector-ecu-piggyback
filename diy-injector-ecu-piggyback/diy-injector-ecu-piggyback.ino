@@ -6,8 +6,11 @@ enum OPERATIONAL_MODE {
 };
 
 const OPERATIONAL_MODE MODE = INCREASE_INJECTOR_ON_TIME;
-const int PERCENTAGE_LEVEL = 25;
-const int INIT_DELAY_ON_MICRO_SECONDS = 1000;
+int PERCENTAGE_LEVEL = 0;
+const int LOW_RPM_PERCENTAGE_LEVEL = 1;
+const int MIDDLE_RPM_PERCENTAGE_LEVEL = 15;
+const int INIT_DELAY_ON_MICRO_SECONDS = 10;
+const int LOW_RPM_THRESHOLD = 3500; //RPMs
 
 //TODO const int MAX_ON_INJECTOR_MICRO_SECONDS = 12000;
 
@@ -19,8 +22,10 @@ uint8_t GPIO_InjectorOUT = A2;
 //and how much to delay the injector output
 unsigned long onFromECUInjectorMicroSeconds = 0;
 unsigned long offFromECUInjectorMicroSeconds = 0;
-unsigned long timerTriggerMicroSeconds = INIT_DELAY_ON_MICRO_SECONDS;
 unsigned long delayToCloseRealInjectorMicroSeconds = 0;
+unsigned int rpmValue = 0;
+
+volatile unsigned long timerTriggerMicroSeconds = INIT_DELAY_ON_MICRO_SECONDS;
 volatile unsigned long microSecondsCount = 0;
 volatile boolean timerTrigger = false;
 //TODO volatile boolean closeInjectorEarlierTrigger = false;
@@ -35,6 +40,7 @@ void infoPrint();
 unsigned long computeTriggerTimeDependingOnOperationMode();
 unsigned long readTimer();
 byte computeNewDutyCycle();
+unsigned long computeRPM();
 
 void Timer1_ISR(void) {
   if (microSecondsCount == timerTriggerMicroSeconds) {
@@ -112,6 +118,15 @@ void loop() {
       //read the ECU injector on time
       onFromECUInjectorMicroSeconds = readAndResetTimer();
 
+      //compute RPM
+      rpmValue = computeRPM();
+
+      if(LOW_RPM_THRESHOLD > rpmValue){
+        PERCENTAGE_LEVEL = LOW_RPM_PERCENTAGE_LEVEL;
+      } else {
+        PERCENTAGE_LEVEL = MIDDLE_RPM_PERCENTAGE_LEVEL;     
+      }
+
       if (MODE == DECREASE_INJECTOR_ON_TIME) {
         //if the real injector wasn't closed before the ECU wanted to close
         if (timerTriggerMicroSeconds > onFromECUInjectorMicroSeconds) {
@@ -136,7 +151,8 @@ void loop() {
       Serial.print("%,");
       Serial.print(onFromECUInjectorMicroSeconds);
       Serial.print(",");
-      Serial.print(timerTriggerMicroSeconds);
+      Serial.print(microSecondsCount);
+
 
       //reset the values
       firstTimeOnInjectorEcu = true;
@@ -154,10 +170,16 @@ void loop() {
 
         //display debugging information
         Serial.print(",");
+        Serial.print(microSecondsCount);
+        Serial.print(",");
+        Serial.print(timerTriggerMicroSeconds);
+        Serial.print(",");
         Serial.print(offFromECUInjectorMicroSeconds);
         Serial.print(",");
         Serial.print(newDutyCycle);
         Serial.print("%,");
+        Serial.print(rpmValue);
+        Serial.print(",");
         Serial.println(warnCount);
       }
     }
@@ -211,6 +233,11 @@ unsigned long computeTriggerTimeDependingOnOperationMode() {
     }
   }
   return 0;
+}
+
+unsigned long computeRPM() {
+  //1 minute in microseconds * the total time for 2 rotation
+  rpmValue = (long)(((float)60000000 / (offFromECUInjectorMicroSeconds + onFromECUInjectorMicroSeconds)) * 2);
 }
 
 
