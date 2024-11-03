@@ -52,11 +52,15 @@ void setup() {
   Timer1.initialize(10);  // Fire An Interrupt Every 0.01milliseconds
   Timer1.attachInterrupt(Timer1_ISR);
 
-  Serial.begin(115200); /* initialise serial communication */
+  //Arduino Leonardo, Micro, and Other Boards with Native USB (e.g., Due)
+  //Since these boards use a native USB port (instead of a USB-to-serial chip), they can support much higher baud rates.
+  //For these, the maximum rate can be set theoretically up to 1,000,000 bps or even 2,000,000 bps, depending on the application and the USB host’s capability.
+  c(2000000); /* initialise serial communication */
   pinMode(GPIO_InjectorIN, INPUT_PULLUP);
   pinMode(GPIO_InjectorOUT, OUTPUT);
   digitalWrite(GPIO_InjectorOUT, LOW);  // turn the injector OFF (HIGH)
-  delay(1200);
+  delay(800);
+  testSerialSpeed();
   infoPrint();
 }
 
@@ -266,5 +270,13 @@ void infoPrint() {
     Serial.println(",DelayPercentage,OnInjectorECU,ActualOnInjector,OffInjectorECU,WarnCounts");
   } else {
     Serial.println(",DelayPercentage,OnInjectorECU,AddedDelayOnToInjector,OffInjectorECU,WarnCounts");
+  }
+}
+
+void testSerialSpeed(){
+  // Repeat a task 10 times
+  for (int i = 0; i < 10; i++) {
+    delay(1000);
+    Serial.println("Baud-rate = 2000000");
   }
 }
