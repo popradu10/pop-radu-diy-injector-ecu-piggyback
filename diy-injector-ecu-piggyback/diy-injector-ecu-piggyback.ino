@@ -87,24 +87,10 @@ void loop() {
     if (firstTimeOffInjectorEcu) {
       //read the ECU injector on time
       onFromECUInjectorMicroSeconds = readResetAndStopTimer();
-
       //compute the next delay based on how many loops the injector ECU input was open
       timerTriggerMicroSeconds = computeTriggerTimeDependingOnOperationMode();
-
       //start timer only after the new timerTriggerMicroSeconds was computed
       startTimer();
-
-      //display debugging information
-      Serial.print(",");
-      Serial.print(PERCENTAGE_LEVEL);
-      Serial.print("%,");
-      Serial.print(onFromECUInjectorMicroSeconds);
-      Serial.print(",");
-      Serial.print(microSecondsCount);
-      Serial.print(",");
-      Serial.print(timerTrigger);
-
-
       //reset the values
       firstTimeOnInjectorEcu = true;
       firstTimeOffInjectorEcu = false;
@@ -115,14 +101,23 @@ void loop() {
       digitalWrite(GPIO_InjectorOUT, LOW);
       //display debugging information
       Serial.print(",");
-      Serial.print(timerTriggerMicroSeconds);
-      Serial.print(",");
       Serial.print(microSecondsCount);
+      Serial.print(",");
+      Serial.print(PERCENTAGE_LEVEL);
+      Serial.print("%,");
+      Serial.print(onFromECUInjectorMicroSeconds);
+      Serial.print(",");
+      Serial.print(timerTrigger);
+      Serial.print(",");
+      Serial.print(timerTriggerMicroSeconds);
 
       timerTrigger = false;
 
       //compute the new duty cycle
       //newDutyCycle = computeNewIncreaseDutyCycle();
+
+      //compute the new delay level based on RPMs
+      //computeRPMandChangePercentageLevel();
 
       //display debugging information
       Serial.print(",");
@@ -191,14 +186,17 @@ unsigned long computeTriggerTimeDependingOnOperationMode() {
 
 void infoPrint() {
   Serial.println("All good.");
+  Serial.println(Serial.baud());
   Serial.println("Good luck.");
   Serial.println(",DelayPercentage,OnInjectorECU,AddedDelayOnToInjector,OffInjectorECU,WarnCounts");
 }
 
 void testSerialSpeed() {
-  // Repeat a task 10 times
-  for (int i = 0; i < 10; i++) {
-    delay(1000);
-    Serial.println("Baud-rate = 2000000");
+  // Repeat a task multiple times
+  for (int i = 0; i < 500; i++) {
+    Serial.print("Test Serial Speed ");
+    Serial.print(i);
+    Serial.print(".Current microseconds: ");
+    Serial.println(microSecondsCount);
   }
 }
