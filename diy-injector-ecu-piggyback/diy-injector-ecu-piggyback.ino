@@ -150,6 +150,8 @@ void loop() {
       Serial.print(onFromECUInjectorMicroSeconds);
       Serial.print(",");
       Serial.print(microSecondsCount);
+      Serial.print(",");
+      Serial.print(timerTrigger);
 
 
       //reset the values
@@ -161,6 +163,12 @@ void loop() {
       if (timerTrigger) {
         //close the real injector output (LOW) after a delay to increase the injector opening time
         digitalWrite(GPIO_InjectorOUT, LOW);
+        //display debugging information
+        Serial.print(",");
+        Serial.print(timerTriggerMicroSeconds);
+        Serial.print(",");
+        Serial.print(microSecondsCount);
+
         timerTrigger = false;
 
         //compute the new duty cycle
@@ -168,11 +176,9 @@ void loop() {
 
         //display debugging information
         Serial.print(",");
-        Serial.print(microSecondsCount);
-        Serial.print(",");
-        Serial.print(timerTriggerMicroSeconds);
-        Serial.print(",");
         Serial.print(offFromECUInjectorMicroSeconds);
+        Serial.print(",");
+        Serial.print(microSecondsCount);
         Serial.print(",");
         Serial.print(newDutyCycle);
         Serial.print("%,");
