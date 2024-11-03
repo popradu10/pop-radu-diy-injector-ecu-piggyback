@@ -1,9 +1,9 @@
 #include <TimerOne.h>
 
-int PERCENTAGE_LEVEL = 0;
-const int LOW_RPM_PERCENTAGE_LEVEL = 1;
-const int MIDDLE_RPM_PERCENTAGE_LEVEL = 15;
-const int LOW_RPM_THRESHOLD = 3500; //RPMs
+int PERCENTAGE_LEVEL = 1;
+const int LOW_RPM_PERCENTAGE_LEVEL = 2;
+const int MIDDLE_RPM_PERCENTAGE_LEVEL = 5;
+const int LOW_RPM_THRESHOLD = 3000; //RPMs
 
 //piggyback injector pins
 uint8_t GPIO_InjectorIN = A0;
@@ -13,7 +13,6 @@ uint8_t GPIO_InjectorOUT = A2;
 //and how much to delay the injector output
 unsigned long onFromECUInjectorMicroSeconds = 0;
 unsigned long offFromECUInjectorMicroSeconds = 0;
-unsigned long delayToCloseRealInjectorMicroSeconds = 0;
 unsigned int rpmValue = 0;
 
 volatile unsigned long timerTriggerMicroSeconds = 0;
@@ -36,17 +35,17 @@ void Timer1_ISR(void) {
   if (microSecondsCount == timerTriggerMicroSeconds) {
     timerTrigger = true;
   }
-  microSecondsCount += 10;
+  microSecondsCount += 100;
 }
 
 void setup() {
-  Timer1.initialize(10);  // Fire An Interrupt Every 0.01milliseconds
+  Timer1.initialize(100);  // Fire An Interrupt Every 0.01milliseconds
   Timer1.attachInterrupt(Timer1_ISR);
 
   //Arduino Leonardo, Micro, and Other Boards with Native USB (e.g., Due)
   //Since these boards use a native USB port (instead of a USB-to-serial chip), they can support much higher baud rates.
   //For these, the maximum rate can be set theoretically up to 1,000,000 bps or even 2,000,000 bps, depending on the application and the USB host’s capability.
-  c(2000000); /* initialise serial communication */
+  Serial.begin(2000000); /* initialise serial communication */
   pinMode(GPIO_InjectorIN, INPUT_PULLUP);
   pinMode(GPIO_InjectorOUT, OUTPUT);
   digitalWrite(GPIO_InjectorOUT, LOW);  // turn the injector OFF (HIGH)
@@ -67,9 +66,6 @@ void loop() {
       offFromECUInjectorMicroSeconds = readResetAndStopTimer();
       //start timer as the timerTriggerMicroSeconds was already computed
       startTimer();
-
-      //compute the RPM value based on ON and OFF value and change the percentage level accordingly
-      computeRPMandChangePercentageLevel();
 
       //if the real injector wasn't closed at all
       if (timerTriggerMicroSeconds > offFromECUInjectorMicroSeconds) {
@@ -126,7 +122,7 @@ void loop() {
       timerTrigger = false;
 
       //compute the new duty cycle
-      newDutyCycle = computeNewIncreaseDutyCycle();
+      //newDutyCycle = computeNewIncreaseDutyCycle();
 
       //display debugging information
       Serial.print(",");
@@ -134,9 +130,9 @@ void loop() {
       Serial.print(",");
       Serial.print(microSecondsCount);
       Serial.print(",");
-      Serial.print(newDutyCycle);
-      Serial.print("%,");
-      Serial.print(rpmValue);
+      //Serial.print(newDutyCycle);
+      //Serial.print("%,");
+      //Serial.print(rpmValue);
       Serial.print(",");
       Serial.println(warnCount);
     }
@@ -144,8 +140,9 @@ void loop() {
 }
 
 void computeRPMandChangePercentageLevel() {
-  //compute RPM
-  rpmValue = computeRPM();
+  //1 minute in microseconds * the total time for 2 rotation
+  rpmValue = (long)(((float)60000000 / (offFromECUInjectorMicroSeconds + onFromECUInjectorMicroSeconds)) * 2);
+
   if (LOW_RPM_THRESHOLD > rpmValue) {
     PERCENTAGE_LEVEL = LOW_RPM_PERCENTAGE_LEVEL;
   } else {
@@ -186,14 +183,9 @@ void startTimer() {
 unsigned long computeTriggerTimeDependingOnOperationMode() {
   if (PERCENTAGE_LEVEL > 0 || PERCENTAGE_LEVEL < 100) {
     //for the increase operation mode: we need to compute the delay of closing time
-    return (long)((onFromECUInjectorMicroSeconds * PERCENTAGE_LEVEL) / 1000) * 10;
+    return (long)((onFromECUInjectorMicroSeconds * PERCENTAGE_LEVEL) / 10000) * 100;
   }
   return 0;
-}
-
-unsigned long computeRPM() {
-  //1 minute in microseconds * the total time for 2 rotation
-  rpmValue = (long)(((float)60000000 / (offFromECUInjectorMicroSeconds + onFromECUInjectorMicroSeconds)) * 2);
 }
 
 
