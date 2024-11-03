@@ -38,7 +38,6 @@ unsigned long warnCount = 0;
 
 void infoPrint();
 unsigned long computeTriggerTimeDependingOnOperationMode();
-unsigned long readTimer();
 byte computeNewDutyCycle();
 unsigned long computeRPM();
 
@@ -70,7 +69,12 @@ void loop() {
       digitalWrite(GPIO_InjectorOUT, HIGH);
 
       //read ECU injector off time
-      offFromECUInjectorMicroSeconds = readAndResetTimer();
+      offFromECUInjectorMicroSeconds = readResetAndStopTimer();
+      //start timer as the timerTriggerMicroSeconds was already computed
+      startTimer();
+
+      //compute the RPM value based on ON and OFF value and change the percentage level accordingly
+      computeRPMandChangePercentageLevel();
 
       if (MODE == INCREASE_INJECTOR_ON_TIME) {
         //if the real injector wasn't closed at all
@@ -79,7 +83,7 @@ void loop() {
           //display debugging information
           Serial.print(",");
           Serial.print(offFromECUInjectorMicroSeconds);
-          Serial.print(",100%,");  //the new dutty cycle
+          Serial.print(",100%,");  //the new duty cycle
           Serial.println(warnCount);
         }
       }
@@ -116,16 +120,7 @@ void loop() {
         digitalWrite(GPIO_InjectorOUT, LOW);
       }
       //read the ECU injector on time
-      onFromECUInjectorMicroSeconds = readAndResetTimer();
-
-      //compute RPM
-      rpmValue = computeRPM();
-
-      if(LOW_RPM_THRESHOLD > rpmValue){
-        PERCENTAGE_LEVEL = LOW_RPM_PERCENTAGE_LEVEL;
-      } else {
-        PERCENTAGE_LEVEL = MIDDLE_RPM_PERCENTAGE_LEVEL;     
-      }
+      onFromECUInjectorMicroSeconds = readResetAndStopTimer();
 
       if (MODE == DECREASE_INJECTOR_ON_TIME) {
         //if the real injector wasn't closed before the ECU wanted to close
@@ -144,6 +139,9 @@ void loop() {
 
       //compute the next delay based on how many loops the injector ECU input was open
       timerTriggerMicroSeconds = computeTriggerTimeDependingOnOperationMode();
+
+      //start timer only after the new timerTriggerMicroSeconds was computed
+      startTimer();
 
       //display debugging information
       Serial.print(",");
@@ -186,6 +184,17 @@ void loop() {
   }
 }
 
+void computeRPMandChangePercentageLevel(){
+    //compute RPM
+    rpmValue = computeRPM();
+    
+    if(LOW_RPM_THRESHOLD > rpmValue){
+        PERCENTAGE_LEVEL = LOW_RPM_PERCENTAGE_LEVEL;
+    } else {
+        PERCENTAGE_LEVEL = MIDDLE_RPM_PERCENTAGE_LEVEL;     
+    }
+}
+
 byte computeECUDutyCycle() {
   if ((offFromECUInjectorMicroSeconds + onFromECUInjectorMicroSeconds) != 0) {
     return (byte)(((float)onFromECUInjectorMicroSeconds) / (offFromECUInjectorMicroSeconds + onFromECUInjectorMicroSeconds) * 100);
@@ -210,16 +219,19 @@ byte computeNewIncreaseDutyCycle() {
   }
 }
 
-unsigned long readAndResetTimer() {
+unsigned long readResetAndStopTimer() {
   //make sure we prepare for the next trigger
   Timer1.stop();
   //reset also the triggers when restart the counter
   timerTrigger = false;
-  unsigned long tmp = microSecondsCount;
+  return microSecondsCount;
+}
+
+void startTimer(){
   microSecondsCount = 0;
   Timer1.start();
-  return tmp;
 }
+
 
 unsigned long computeTriggerTimeDependingOnOperationMode() {
   if (PERCENTAGE_LEVEL > 0 || PERCENTAGE_LEVEL < 100) {
