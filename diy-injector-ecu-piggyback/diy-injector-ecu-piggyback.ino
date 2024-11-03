@@ -1,18 +1,9 @@
 #include <TimerOne.h>
 
-enum OPERATIONAL_MODE {
-  DECREASE_INJECTOR_ON_TIME,
-  INCREASE_INJECTOR_ON_TIME,
-};
-
-const OPERATIONAL_MODE MODE = INCREASE_INJECTOR_ON_TIME;
 int PERCENTAGE_LEVEL = 0;
 const int LOW_RPM_PERCENTAGE_LEVEL = 1;
 const int MIDDLE_RPM_PERCENTAGE_LEVEL = 15;
-const int INIT_DELAY_ON_MICRO_SECONDS = 10;
 const int LOW_RPM_THRESHOLD = 3500; //RPMs
-
-//TODO const int MAX_ON_INJECTOR_MICRO_SECONDS = 12000;
 
 //piggyback injector pins
 uint8_t GPIO_InjectorIN = A0;
@@ -25,10 +16,10 @@ unsigned long offFromECUInjectorMicroSeconds = 0;
 unsigned long delayToCloseRealInjectorMicroSeconds = 0;
 unsigned int rpmValue = 0;
 
-volatile unsigned long timerTriggerMicroSeconds = INIT_DELAY_ON_MICRO_SECONDS;
+volatile unsigned long timerTriggerMicroSeconds = 0;
 volatile unsigned long microSecondsCount = 0;
 volatile boolean timerTrigger = false;
-//TODO volatile boolean closeInjectorEarlierTrigger = false;
+
 byte newDutyCycle = 0;
 
 boolean firstTimeOnInjectorEcu = true;
@@ -80,16 +71,14 @@ void loop() {
       //compute the RPM value based on ON and OFF value and change the percentage level accordingly
       computeRPMandChangePercentageLevel();
 
-      if (MODE == INCREASE_INJECTOR_ON_TIME) {
-        //if the real injector wasn't closed at all
-        if (timerTriggerMicroSeconds > offFromECUInjectorMicroSeconds) {
-          warnCount++;
-          //display debugging information
-          Serial.print(",");
-          Serial.print(offFromECUInjectorMicroSeconds);
-          Serial.print(",100%,");  //the new duty cycle
-          Serial.println(warnCount);
-        }
+      //if the real injector wasn't closed at all
+      if (timerTriggerMicroSeconds > offFromECUInjectorMicroSeconds) {
+        warnCount++;
+        //display debugging information
+        Serial.print(",");
+        Serial.print(offFromECUInjectorMicroSeconds);
+        Serial.print(",100%,");  //the new duty cycle
+        Serial.println(warnCount);
       }
 
       //first time on took place already
@@ -98,48 +87,10 @@ void loop() {
       firstTimeOffInjectorEcu = true;
     }
 
-    if (MODE == DECREASE_INJECTOR_ON_TIME) {
-      if (timerTrigger) {
-        //close the real injector output (LOW) ahead of time
-        digitalWrite(GPIO_InjectorOUT, LOW);
-        timerTrigger = false;
-
-        //compute the new duty cycle
-        newDutyCycle = computeNewDecreaseDutyCycle();
-
-        //display debugging information
-        Serial.print(",");
-        Serial.print(offFromECUInjectorMicroSeconds);
-        Serial.print(",");
-        Serial.print(newDutyCycle);
-        Serial.print("%,");
-        Serial.println(warnCount);
-      }
-    }
-
   } else {
     if (firstTimeOffInjectorEcu) {
-      if (MODE == DECREASE_INJECTOR_ON_TIME) {
-        //if the ECU closes the injector input, will also close the output
-        digitalWrite(GPIO_InjectorOUT, LOW);
-      }
       //read the ECU injector on time
       onFromECUInjectorMicroSeconds = readResetAndStopTimer();
-
-      if (MODE == DECREASE_INJECTOR_ON_TIME) {
-        //if the real injector wasn't closed before the ECU wanted to close
-        if (timerTriggerMicroSeconds > onFromECUInjectorMicroSeconds) {
-          warnCount++;
-          //display debugging information
-          newDutyCycle = computeECUDutyCycle();
-          Serial.print(",");
-          Serial.print(offFromECUInjectorMicroSeconds);
-          Serial.print(",");
-          Serial.print(newDutyCycle);
-          Serial.print("%,");
-          Serial.println(warnCount);
-        }
-      }
 
       //compute the next delay based on how many loops the injector ECU input was open
       timerTriggerMicroSeconds = computeTriggerTimeDependingOnOperationMode();
@@ -163,59 +114,48 @@ void loop() {
       firstTimeOffInjectorEcu = false;
     }
 
-    if (MODE == INCREASE_INJECTOR_ON_TIME) {
-      if (timerTrigger) {
-        //close the real injector output (LOW) after a delay to increase the injector opening time
-        digitalWrite(GPIO_InjectorOUT, LOW);
-        //display debugging information
-        Serial.print(",");
-        Serial.print(timerTriggerMicroSeconds);
-        Serial.print(",");
-        Serial.print(microSecondsCount);
+    if (timerTrigger) {
+      //close the real injector output (LOW) after a delay to increase the injector opening time
+      digitalWrite(GPIO_InjectorOUT, LOW);
+      //display debugging information
+      Serial.print(",");
+      Serial.print(timerTriggerMicroSeconds);
+      Serial.print(",");
+      Serial.print(microSecondsCount);
 
-        timerTrigger = false;
+      timerTrigger = false;
 
-        //compute the new duty cycle
-        newDutyCycle = computeNewIncreaseDutyCycle();
+      //compute the new duty cycle
+      newDutyCycle = computeNewIncreaseDutyCycle();
 
-        //display debugging information
-        Serial.print(",");
-        Serial.print(offFromECUInjectorMicroSeconds);
-        Serial.print(",");
-        Serial.print(microSecondsCount);
-        Serial.print(",");
-        Serial.print(newDutyCycle);
-        Serial.print("%,");
-        Serial.print(rpmValue);
-        Serial.print(",");
-        Serial.println(warnCount);
-      }
+      //display debugging information
+      Serial.print(",");
+      Serial.print(offFromECUInjectorMicroSeconds);
+      Serial.print(",");
+      Serial.print(microSecondsCount);
+      Serial.print(",");
+      Serial.print(newDutyCycle);
+      Serial.print("%,");
+      Serial.print(rpmValue);
+      Serial.print(",");
+      Serial.println(warnCount);
     }
   }
 }
 
-void computeRPMandChangePercentageLevel(){
-    //compute RPM
-    rpmValue = computeRPM();
-    
-    if(LOW_RPM_THRESHOLD > rpmValue){
-        PERCENTAGE_LEVEL = LOW_RPM_PERCENTAGE_LEVEL;
-    } else {
-        PERCENTAGE_LEVEL = MIDDLE_RPM_PERCENTAGE_LEVEL;     
-    }
+void computeRPMandChangePercentageLevel() {
+  //compute RPM
+  rpmValue = computeRPM();
+  if (LOW_RPM_THRESHOLD > rpmValue) {
+    PERCENTAGE_LEVEL = LOW_RPM_PERCENTAGE_LEVEL;
+  } else {
+    PERCENTAGE_LEVEL = MIDDLE_RPM_PERCENTAGE_LEVEL;
+  }
 }
 
 byte computeECUDutyCycle() {
   if ((offFromECUInjectorMicroSeconds + onFromECUInjectorMicroSeconds) != 0) {
     return (byte)(((float)onFromECUInjectorMicroSeconds) / (offFromECUInjectorMicroSeconds + onFromECUInjectorMicroSeconds) * 100);
-  } else {
-    return 0;
-  }
-}
-
-byte computeNewDecreaseDutyCycle() {
-  if ((offFromECUInjectorMicroSeconds + onFromECUInjectorMicroSeconds) != 0) {
-    return (byte)((((float)timerTriggerMicroSeconds) / (offFromECUInjectorMicroSeconds + onFromECUInjectorMicroSeconds)) * 100);
   } else {
     return 0;
   }
@@ -237,7 +177,7 @@ unsigned long readResetAndStopTimer() {
   return microSecondsCount;
 }
 
-void startTimer(){
+void startTimer() {
   microSecondsCount = 0;
   Timer1.start();
 }
@@ -245,14 +185,8 @@ void startTimer(){
 
 unsigned long computeTriggerTimeDependingOnOperationMode() {
   if (PERCENTAGE_LEVEL > 0 || PERCENTAGE_LEVEL < 100) {
-    //make sure to round up at 10s of microseconds
-    if (MODE == DECREASE_INJECTOR_ON_TIME) {
-      //for the decrease operation mode: we need to compute the remaining open time
-      return (long)((onFromECUInjectorMicroSeconds * (100 - PERCENTAGE_LEVEL)) / 1000) * 10;
-    } else {
-      //for the increase operation mode: we need to compute the delay of closing time
-      return (long)((onFromECUInjectorMicroSeconds * PERCENTAGE_LEVEL) / 1000) * 10;
-    }
+    //for the increase operation mode: we need to compute the delay of closing time
+    return (long)((onFromECUInjectorMicroSeconds * PERCENTAGE_LEVEL) / 1000) * 10;
   }
   return 0;
 }
@@ -266,14 +200,10 @@ unsigned long computeRPM() {
 void infoPrint() {
   Serial.println("All good.");
   Serial.println("Good luck.");
-  if (MODE == DECREASE_INJECTOR_ON_TIME) {
-    Serial.println(",DelayPercentage,OnInjectorECU,ActualOnInjector,OffInjectorECU,WarnCounts");
-  } else {
-    Serial.println(",DelayPercentage,OnInjectorECU,AddedDelayOnToInjector,OffInjectorECU,WarnCounts");
-  }
+  Serial.println(",DelayPercentage,OnInjectorECU,AddedDelayOnToInjector,OffInjectorECU,WarnCounts");
 }
 
-void testSerialSpeed(){
+void testSerialSpeed() {
   // Repeat a task 10 times
   for (int i = 0; i < 10; i++) {
     delay(1000);
