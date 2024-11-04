@@ -46,7 +46,7 @@ void setup() {
   pinMode(GPIO_InjectorIN, INPUT_PULLUP);
   pinMode(GPIO_InjectorOUT, OUTPUT);
   digitalWrite(GPIO_InjectorOUT, LOW);  // turn the injector OFF (HIGH)
-  delay(800);
+  delay(1200);
   infoPrint();
   // testSerialSpeed();
 }
@@ -176,7 +176,7 @@ void infoPrint() {
   Serial.println("All good.");
   Serial.println(Serial.baud());
   Serial.println("Good luck.");
-  Serial.println(",DelayPercentage,OnInjectorECU,AddedDelayOnToInjector,OffInjectorECU,WarnCounts");
+  Serial.println(",DelayPercentage,OnInjectorECU,ComputedDelayToInjector,DoubleCheckDelay,OffInjectorECU,WarnCounts,RPM");
 }
 
 void testSerialSpeed() {
