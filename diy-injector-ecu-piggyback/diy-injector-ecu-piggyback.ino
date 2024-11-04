@@ -3,7 +3,7 @@
 int PERCENTAGE_LEVEL = 1;
 const int LOW_RPM_PERCENTAGE_LEVEL = 2;
 const int MIDDLE_RPM_PERCENTAGE_LEVEL = 5;
-const int LOW_RPM_THRESHOLD = 3000; //RPMs
+const int LOW_RPM_THRESHOLD = 3000;  //RPMs
 
 //piggyback injector pins
 uint8_t GPIO_InjectorIN = A0;
@@ -12,6 +12,7 @@ uint8_t GPIO_InjectorOUT = A2;
 //variables used to count how much time the injector is open by ECU
 //and how much to delay the injector output
 unsigned long onFromECUInjectorMicroSeconds = 0;
+unsigned long delayToCloseInjectorMicroSeconds = 0;
 unsigned long offFromECUInjectorMicroSeconds = 0;
 unsigned int rpmValue = 0;
 
@@ -28,8 +29,6 @@ unsigned long warnCount = 0;
 
 void infoPrint();
 unsigned long computeTriggerTimeDependingOnOperationMode();
-byte computeNewDutyCycle();
-unsigned long computeRPM();
 
 void Timer1_ISR(void) {
   if (microSecondsCount == timerTriggerMicroSeconds) {
@@ -41,17 +40,13 @@ void Timer1_ISR(void) {
 void setup() {
   Timer1.initialize(100);  // Fire An Interrupt Every 0.01milliseconds
   Timer1.attachInterrupt(Timer1_ISR);
-
-  //Arduino Leonardo, Micro, and Other Boards with Native USB (e.g., Due)
-  //Since these boards use a native USB port (instead of a USB-to-serial chip), they can support much higher baud rates.
-  //For these, the maximum rate can be set theoretically up to 1,000,000 bps or even 2,000,000 bps, depending on the application and the USB host’s capability.
-  Serial.begin(2000000); /* initialise serial communication */
+  Serial.begin(9600);
   pinMode(GPIO_InjectorIN, INPUT_PULLUP);
   pinMode(GPIO_InjectorOUT, OUTPUT);
   digitalWrite(GPIO_InjectorOUT, LOW);  // turn the injector OFF (HIGH)
   delay(800);
-  testSerialSpeed();
   infoPrint();
+  testSerialSpeed();
 }
 
 void loop() {
@@ -71,6 +66,12 @@ void loop() {
       if (timerTriggerMicroSeconds > offFromECUInjectorMicroSeconds) {
         warnCount++;
         //display debugging information
+        Serial.print(",");
+        Serial.print(PERCENTAGE_LEVEL);
+        Serial.print("%,");
+        Serial.print(onFromECUInjectorMicroSeconds);
+        Serial.print(",");
+        Serial.print(timerTriggerMicroSeconds);
         Serial.print(",");
         Serial.print(offFromECUInjectorMicroSeconds);
         Serial.print(",100%,");  //the new duty cycle
@@ -99,37 +100,31 @@ void loop() {
     if (timerTrigger) {
       //close the real injector output (LOW) after a delay to increase the injector opening time
       digitalWrite(GPIO_InjectorOUT, LOW);
+      
+      //quick read the time without reseting the time, only the trigger
+      Timer1.stop();
+      timerTrigger = false;
+      delayToCloseInjectorMicroSeconds = microSecondsCount;
+      Timer1.start();
+
       //display debugging information
-      Serial.print(",");
-      Serial.print(microSecondsCount);
       Serial.print(",");
       Serial.print(PERCENTAGE_LEVEL);
       Serial.print("%,");
       Serial.print(onFromECUInjectorMicroSeconds);
       Serial.print(",");
-      Serial.print(timerTrigger);
-      Serial.print(",");
       Serial.print(timerTriggerMicroSeconds);
-
-      timerTrigger = false;
-
-      //compute the new duty cycle
-      //newDutyCycle = computeNewIncreaseDutyCycle();
+      Serial.print(",");
+      Serial.print(delayToCloseInjectorMicroSeconds);
+      Serial.print(",");
+      Serial.print(offFromECUInjectorMicroSeconds);
+      Serial.print(",W");
+      Serial.print(warnCount);
+      Serial.print(",R");
+      Serial.println(rpmValue);
 
       //compute the new delay level based on RPMs
       //computeRPMandChangePercentageLevel();
-
-      //display debugging information
-      Serial.print(",");
-      Serial.print(offFromECUInjectorMicroSeconds);
-      Serial.print(",");
-      Serial.print(microSecondsCount);
-      Serial.print(",");
-      //Serial.print(newDutyCycle);
-      //Serial.print("%,");
-      //Serial.print(rpmValue);
-      Serial.print(",");
-      Serial.println(warnCount);
     }
   }
 }
@@ -142,22 +137,6 @@ void computeRPMandChangePercentageLevel() {
     PERCENTAGE_LEVEL = LOW_RPM_PERCENTAGE_LEVEL;
   } else {
     PERCENTAGE_LEVEL = MIDDLE_RPM_PERCENTAGE_LEVEL;
-  }
-}
-
-byte computeECUDutyCycle() {
-  if ((offFromECUInjectorMicroSeconds + onFromECUInjectorMicroSeconds) != 0) {
-    return (byte)(((float)onFromECUInjectorMicroSeconds) / (offFromECUInjectorMicroSeconds + onFromECUInjectorMicroSeconds) * 100);
-  } else {
-    return 0;
-  }
-}
-
-byte computeNewIncreaseDutyCycle() {
-  if ((offFromECUInjectorMicroSeconds + onFromECUInjectorMicroSeconds) != 0) {
-    return (byte)((((float)(onFromECUInjectorMicroSeconds + timerTriggerMicroSeconds)) / (offFromECUInjectorMicroSeconds + onFromECUInjectorMicroSeconds)) * 100);
-  } else {
-    return 0;
   }
 }
 
@@ -193,10 +172,14 @@ void infoPrint() {
 
 void testSerialSpeed() {
   // Repeat a task multiple times
-  for (int i = 0; i < 500; i++) {
+  int count = 0;
+  for (int i = 0; i < 20; i++) {
+    delay(100);
+    readResetAndStopTimer();
+    startTimer();
     Serial.print("Test Serial Speed ");
     Serial.print(i);
-    Serial.print(".Current microseconds: ");
-    Serial.println(microSecondsCount);
+    Serial.print(" speed: ");
+    Serial.println(readResetAndStopTimer());
   }
 }
