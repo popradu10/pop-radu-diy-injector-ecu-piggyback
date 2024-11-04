@@ -1,9 +1,11 @@
 #include <TimerOne.h>
 
 int PERCENTAGE_LEVEL = 1;
-const int LOW_RPM_PERCENTAGE_LEVEL = 2;
-const int MIDDLE_RPM_PERCENTAGE_LEVEL = 5;
-const int LOW_RPM_THRESHOLD = 3000;  //RPMs
+const int LOW_RPM_PERCENTAGE_LEVEL = 5;
+const int MIDDLE_RPM_PERCENTAGE_LEVEL = 10;
+const int HIGH_RPM_PERCENTAGE_LEVEL = 12;
+const int LOW_RPM_THRESHOLD = 3000;     //RPMs
+const int MIDDLE_RPM_THRESHOLD = 5000;  //RPMs
 
 //piggyback injector pins
 uint8_t GPIO_InjectorIN = A0;
@@ -14,16 +16,16 @@ uint8_t GPIO_InjectorOUT = A2;
 unsigned long onFromECUInjectorMicroSeconds = 0;
 unsigned long delayToCloseInjectorMicroSeconds = 0;
 unsigned long offFromECUInjectorMicroSeconds = 0;
-unsigned int rpmValue = 0;
 
 volatile unsigned long timerTriggerMicroSeconds = 0;
 volatile unsigned long microSecondsCount = 0;
 volatile boolean timerTrigger = false;
 
-byte newDutyCycle = 0;
-
 boolean firstTimeOnInjectorEcu = true;
 boolean firstTimeOffInjectorEcu = true;
+
+boolean computeRPMTrigger = true;
+unsigned int rpmValue = 0;
 
 unsigned long warnCount = 0;
 
@@ -97,10 +99,15 @@ void loop() {
       firstTimeOffInjectorEcu = false;
     }
 
+    if (computeRPMTrigger) {
+      computeRPMandChangePercentageLevel();
+      computeRPMTrigger = false;
+    }
+
     if (timerTrigger) {
       //close the real injector output (LOW) after a delay to increase the injector opening time
       digitalWrite(GPIO_InjectorOUT, LOW);
-      
+
       //quick read the time without reseting the time, only the trigger
       Timer1.stop();
       timerTrigger = false;
@@ -122,10 +129,10 @@ void loop() {
       Serial.print(warnCount);
       Serial.print(",R");
       Serial.println(rpmValue);
-
-      //compute the new delay level based on RPMs
-      //computeRPMandChangePercentageLevel();
+      //trigger the rpm compute
+      computeRPMTrigger = true;
     }
+    
   }
 }
 
@@ -133,10 +140,12 @@ void computeRPMandChangePercentageLevel() {
   //1 minute in microseconds * the total time for 2 rotation
   rpmValue = (long)(((float)60000000 / (offFromECUInjectorMicroSeconds + onFromECUInjectorMicroSeconds)) * 2);
 
-  if (LOW_RPM_THRESHOLD > rpmValue) {
-    PERCENTAGE_LEVEL = LOW_RPM_PERCENTAGE_LEVEL;
-  } else {
+  if (MIDDLE_RPM_THRESHOLD < rpmValue) {
+    PERCENTAGE_LEVEL = HIGH_RPM_PERCENTAGE_LEVEL;
+  } else if (LOW_RPM_THRESHOLD < rpmValue) {
     PERCENTAGE_LEVEL = MIDDLE_RPM_PERCENTAGE_LEVEL;
+  } else {
+    PERCENTAGE_LEVEL = LOW_RPM_PERCENTAGE_LEVEL;
   }
 }
 
