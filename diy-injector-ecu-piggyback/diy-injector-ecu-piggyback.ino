@@ -76,7 +76,7 @@ void loop() {
         Serial.print(timerTriggerMicroSeconds);
         Serial.print(",");
         Serial.print(offFromECUInjectorMicroSeconds);
-        Serial.print(",100%,");  //the new duty cycle
+        Serial.print(","); 
         Serial.println(warnCount);
       }
 
