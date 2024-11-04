@@ -48,7 +48,7 @@ void setup() {
   digitalWrite(GPIO_InjectorOUT, LOW);  // turn the injector OFF (HIGH)
   delay(800);
   infoPrint();
-  testSerialSpeed();
+  // testSerialSpeed();
 }
 
 void loop() {
@@ -132,7 +132,7 @@ void loop() {
       //trigger the rpm compute
       computeRPMTrigger = true;
     }
-    
+
   }
 }
 
