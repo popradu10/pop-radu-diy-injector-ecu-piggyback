@@ -48,7 +48,7 @@ Based on the [data collected while starting the engine for 2 minutes.](/docs/dat
 
 ### Youtube video
 
-[![My video](https://i.ytimg.com/vi/03AhqZIt5jw/0.jpg)](https://youtu.be/03AhqZIt5jw "My Video")
+[![My video](https://i.ytimg.com/vi/7_NUgiHlosA/0.jpg)](https://youtu.be/7_NUgiHlosA "My Video")
 
 https://youtu.be/03AhqZIt5jw
 
