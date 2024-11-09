@@ -74,11 +74,7 @@ void loop() {
         Serial.print(onFromECUInjectorMicroSeconds);
         Serial.print(",");
         Serial.print(timerTriggerMicroSeconds);
-        Serial.print(",0,");
-        Serial.print(offFromECUInjectorMicroSeconds);
-        Serial.print(",W");
-        Serial.print(warnCount);
-        Serial.println(",R0");
+        Serial.println(",");
       }
 
       //first time on took place already
