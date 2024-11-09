@@ -36,7 +36,7 @@ DIY [piggyback solution](#diagram) on one injector for an EFI engine running wit
 </p>
 Based on circuit file [circuit_oct_2025.cddx](/docs/circuit_oct_2025.cddx) using [Circuit Diagram online editor](https://www.circuit-diagram.org/editor/open).
 
-#### Examples of the piggyback module with 0 increase or decrease
+#### Examples of the piggyback module while driving
 
 <img src="/docs/chart.png" width="800">
 <br>
