@@ -44,7 +44,7 @@ Based on circuit file [circuit_oct_2025.cddx](/docs/circuit_oct_2025.cddx) using
 
 <img src="/docs/Screenshot_20241020_181324_OBD-II.jpg" width="300"> <img src="/docs/Screenshot_20241020_181329_OBD-II.jpg" width="300">
 
-Based on the [data collected while starting the engine for 2 minutes.](/docs/datalog_20241109.csv)
+Based on the [data collected while riding.](/docs/datalog_20241109.csv)
 
 ### Youtube video
 
