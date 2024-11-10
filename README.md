@@ -1,6 +1,6 @@
 ## Pop Radu - DIY Injector ECU Piggyback 
 
-I start created [my own piggyback module](#module) that will delay opening the injector for my EFI moped as I install a larger injector.
+I start created [my own piggyback module](#module) that will delay closing the injector for my EFI moped as I install a larger injector.
 DIY [piggyback solution](#diagram) on one injector for an EFI engine running with an existing ECU.
 
 #### It does this by:
@@ -15,11 +15,10 @@ DIY [piggyback solution](#diagram) on one injector for an EFI engine running wit
 
 #### Preconditions:
 
-1. Increase engine capacity. For e.g. increase 139fmb engine from 50cc to 72cc.
-2. Upgrade the injector, bigger injector. For e.g. from a stock 2 hole injector to a 3 hole injector. 
-3. Upgrade your exhaust. For e.g. remove the catalytic converter from the exhaust.
-4. Unlocked your ECU engine controller. For e.g. get a ECU without rev limitation for Barton Volcano Euro 5.
-5. Upgrade Front Pin tooth count.
+1. Increase engine capacity. For e.g. increase 139fmb engine from 50cc to 72cc. 
+2. Upgrade your exhaust. For e.g. remove the catalytic converter from the exhaust.
+3. Unlocked your ECU engine controller. For e.g. get a ECU without rev limitation for Barton Volcano Euro 5.
+4. Upgrade Front Pin tooth count.
 
 #### DIY injector piggyback module:
 
@@ -45,7 +44,7 @@ Based on circuit file [circuit_oct_2025.cddx](/docs/circuit_oct_2025.cddx) using
 Diagram file [diy-injector-ecu-piggyback.drawio.xml](/docs/diy-injector-ecu-piggyback.drawio.xml) using [Draw IO online editor](https://app.diagrams.net).
 
 
-#### Examples of the piggyback module while driving
+#### Examples of the piggyback module while riding
 
 <img src="/docs/chart.png" width="800">
 <br>
