@@ -36,6 +36,13 @@ DIY [piggyback solution](#diagram) on one injector for an EFI engine running wit
 </p>
 Based on circuit file [circuit_oct_2025.cddx](/docs/circuit_oct_2025.cddx) using [Circuit Diagram online editor](https://www.circuit-diagram.org/editor/open).
 
+#### Arduino code Flow Diagram
+<p name=diagram>
+<img src="/docs/diy-injector-ecu-piggyback.jpg" width="800">
+</p>
+Diagram file [diy-injector-ecu-piggyback.drawio.xml](/docs/diy-injector-ecu-piggyback.drawio.xml) using [Draw IO online editor](https://app.diagrams.net).
+
+
 #### Examples of the piggyback module while driving
 
 <img src="/docs/chart.png" width="800">
