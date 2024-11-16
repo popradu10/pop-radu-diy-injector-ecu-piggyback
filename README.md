@@ -62,7 +62,7 @@ Based on the [data collected while riding.](/docs/datalog_20241109.csv)
 
 [![My video](https://i.ytimg.com/vi/7_NUgiHlosA/0.jpg)](https://youtu.be/7_NUgiHlosA "My Video")
 
-https://youtu.be/03AhqZIt5jw
+[https://youtu.be/03AhqZIt5jw](https://youtu.be/03AhqZIt5jw)
 
 ### EV1 male and female connector to piggyback the existing Injector signal comming from ECU
 
