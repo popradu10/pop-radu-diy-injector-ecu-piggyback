@@ -3,6 +3,8 @@
 I start created [my own piggyback module](#module) that will delay closing the injector for my EFI moped as I install a larger injector.
 DIY [piggyback solution](#diagram) on one injector for an EFI engine running with an existing ECU.
 
+GitHub open source project: [https://github.com/popradu10/pop-radu-diy-injector-ecu-piggyback](https://github.com/popradu10/pop-radu-diy-injector-ecu-piggyback)
+
 #### It does this by:
 
 <img align="right" src="/docs/barton-volcano-50cc.jpg" width="330" />
