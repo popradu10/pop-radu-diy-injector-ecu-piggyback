@@ -3,7 +3,9 @@
 I start created [my own piggyback module](#module) that will delay closing the injector for my EFI moped as I install a larger injector.
 DIY [piggyback solution](#diagram) on one injector for an EFI engine running with an existing ECU.
 
-GitHub open source project: [https://github.com/popradu10/pop-radu-diy-injector-ecu-piggyback](https://github.com/popradu10/pop-radu-diy-injector-ecu-piggyback)
+#### GitHub 
+
+Open source project: [https://github.com/popradu10/pop-radu-diy-injector-ecu-piggyback](https://github.com/popradu10/pop-radu-diy-injector-ecu-piggyback)
 
 #### It does this by:
 
@@ -11,7 +13,7 @@ GitHub open source project: [https://github.com/popradu10/pop-radu-diy-injector-
 
 1. Taking the injector input from the **ECU** using a EV1 male and female connector and a **PC817 Optocoupler**
 2. Monitoring the opening and closing of the injector using **Arduino Micro Pro** board
-3. Delay opening the injector, the delay is computed proportional using **Arduino Micro Pro** and the [arduino code from here.](diy-injector-ecu-piggyback/diy-injector-ecu-piggyback.ino) using the TimerOne library v1.1 for counting microseconds. 
+3. Delay opening the injector, the delay is computed proportional using **Arduino Micro Pro** and the [arduino code from here.](https://github.com/popradu10/pop-radu-diy-injector-ecu-piggyback/blob/main/diy-injector-ecu-piggyback/diy-injector-ecu-piggyback.ino) using the TimerOne library v1.1 for counting microseconds. 
 4. The injector is then closed and open using **IRF520 Mosfet Driver Module** that can react very quickly to changes.
 5. We can set the delay percentage in the arduino code. 
 
