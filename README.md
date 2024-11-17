@@ -26,7 +26,7 @@ Open source project: [https://github.com/popradu10/pop-radu-diy-injector-ecu-pig
 3. Unlocked your ECU engine controller. For e.g. get a ECU without rev limitation for Barton Volcano Euro 5.
 4. Upgrade Front Pin tooth count.
 
-#### DIY injector piggyback module:
+### DIY injector piggyback module:
 
 <p id=module>
 <img src="/docs/diy_injector_piggyback_arduino_micro_1.jpg" width="800">
@@ -35,14 +35,14 @@ Open source project: [https://github.com/popradu10/pop-radu-diy-injector-ecu-pig
 <img align="left" src="/docs/diy_injector_piggyback_arduino_micro_2.jpg" width="350"> <img src="/docs/diy_injector_piggyback_arduino_micro_3.jpg" width="350">
 </p>
 
-#### Wiring Circuit Diagram
+### Wiring Circuit Diagram
 <p id=diagram>
 <img src="/docs/diy_wiring_diagram_ecu_piggyback.png" width="800">
 </p>
 
 Based on circuit file [circuit_oct_2025.cddx](/docs/circuit_oct_2025.cddx) using [Circuit Diagram online editor](https://www.circuit-diagram.org/editor/open).
 
-#### Arduino code Flow Diagram
+### Arduino code Flow Diagram
 <p id=flowdiagram>
 <img src="/docs/diy-injector-ecu-piggyback.jpg" width="800"> 
 </p>
@@ -50,7 +50,7 @@ Based on circuit file [circuit_oct_2025.cddx](/docs/circuit_oct_2025.cddx) using
 Diagram file [diy-injector-ecu-piggyback.drawio.xml](/docs/diy-injector-ecu-piggyback.drawio.xml) using [Draw IO online editor](https://app.diagrams.net).
 
 
-#### Examples of the piggyback module while riding
+### Examples of the piggyback module while riding
 
 <img src="/docs/chart.png" width="800">
 <br>
