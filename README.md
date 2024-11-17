@@ -1,4 +1,4 @@
-## Pop Radu | DIY Piggyback for Electric Fuel Injector Engines
+# DIY Piggyback for Electric Fuel Injector Engines
 
 I developed [a custom piggyback module](#module) designed to extend the injector closing time on my EFI engine, 
 accommodating a larger cylinder capacity after installing a big bore kit.
