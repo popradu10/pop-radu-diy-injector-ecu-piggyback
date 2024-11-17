@@ -28,7 +28,7 @@ Open source project: [https://github.com/popradu10/pop-radu-diy-injector-ecu-pig
 
 #### DIY injector piggyback module:
 
-<p name=module>
+<p id=module>
 <img src="/docs/diy_injector_piggyback_arduino_micro_1.jpg" width="800">
 </p>
 <p>
@@ -36,14 +36,14 @@ Open source project: [https://github.com/popradu10/pop-radu-diy-injector-ecu-pig
 </p>
 
 #### Wiring Circuit Diagram
-<p name=diagram>
+<p id=diagram>
 <img src="/docs/diy_wiring_diagram_ecu_piggyback.png" width="800">
 </p>
 
 Based on circuit file [circuit_oct_2025.cddx](/docs/circuit_oct_2025.cddx) using [Circuit Diagram online editor](https://www.circuit-diagram.org/editor/open).
 
 #### Arduino code Flow Diagram
-<p name=diagram>
+<p id=flowdiagram>
 <img src="/docs/diy-injector-ecu-piggyback.jpg" width="800"> 
 </p>
 
