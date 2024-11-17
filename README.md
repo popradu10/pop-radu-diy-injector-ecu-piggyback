@@ -1,8 +1,9 @@
 ## Pop Radu | DIY Piggyback for Electric Fuel Injector Engines
 
-I created [my own piggyback module](#module) that will delay closing the injector for my EFI moped as I increase the engine capacity using a big bore kit.
+I developed [a custom piggyback module](#module) designed to extend the injector closing time on my EFI engine, 
+accommodating a larger cylinder capacity after installing a big bore kit.
 
-This is a DIY [piggyback solution](#diagram) for one injector EFI engine running with an existing ECU.
+This is a DIY [piggyback solution](#diagram) for single-injector EFI engines that operate with the stock ECU.
 
 #### GitHub 
 
