@@ -32,7 +32,7 @@ Open source project: [https://github.com/popradu10/pop-radu-diy-injector-ecu-pig
 <img src="/docs/diy_injector_piggyback_arduino_micro_1.jpg" width="800">
 </p>
 <p>
-<img align="left" src="/docs/diy_injector_piggyback_arduino_micro_2.jpg" width="350"> <img src="/docs/diy_injector_piggyback_arduino_micro_3.jpg" width="350">
+<img src="/docs/diy_injector_piggyback_arduino_micro_3.jpg" width="350"> <img align="left" src="/docs/diy_injector_piggyback_arduino_micro_2.jpg" width="350"> 
 </p>
 
 ### Wiring Circuit Diagram
