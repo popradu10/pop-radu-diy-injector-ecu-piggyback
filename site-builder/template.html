@@ -77,6 +77,14 @@
 <script>
     // Set the current year dynamically
     document.getElementById('year').textContent = new Date().getFullYear();
+
+    // Select all <img> elements
+    document.querySelectorAll('img').forEach(img => {
+    img.addEventListener('click', () => {
+      const imageUrl = img.src; // Use the image's src attribute
+      window.open(imageUrl, '_blank'); // Open the image in a new tab
+    });
+    });
 </script>
 </body>
 </html>
