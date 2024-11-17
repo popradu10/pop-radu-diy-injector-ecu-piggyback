@@ -6,5 +6,10 @@
         <changefreq>daily</changefreq> <!-- Frequency at which content is likely to change -->
         <priority>1.0</priority> <!-- The priority of this page relative to others -->
     </url>
-
+    <!-- External GitHub repository link -->
+    <url>
+        <loc>https://github.com/popradu10/pop-radu-diy-injector-ecu-piggyback</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.5</priority>
+    </url>
 </urlset>
