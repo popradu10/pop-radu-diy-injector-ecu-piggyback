@@ -1,9 +1,10 @@
 # DIY Piggyback for Electric Fuel Injector Engines
 
-I developed [a custom piggyback module](#module) designed to extend the injector closing time on my EFI engine, 
-accommodating a larger cylinder capacity after installing a big bore kit.
+[A custom piggyback module](#module) was developed to extend the injector closing time on an EFI engine,
+ensuring compatibility with the increased cylinder capacity following the installation of [a big bore kit](#cylinder).
 
-This is a DIY [piggyback solution](#diagram) for single-injector EFI engines that operate with the stock ECU.
+This is a DIY [piggyback solution](#diagram) for single-injector EFI engines that operate with the stock ECU but with 
+an [increase engine displacement/cylinder](#cylinder).
 
 #### GitHub 
 
@@ -130,7 +131,9 @@ Type of Diode:
 
 Increasing the cylinder capacity of a 139FMB engine from its stock displacement (typically 50cc) to 72cc involves using a big bore kit.
 
+<p id=cylinder>
 <img src="/docs/139fmb-72cc-kit.png" width="400">
+</p>
 
 Components of a Big Bore Kit:
 
