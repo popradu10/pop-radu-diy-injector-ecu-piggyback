@@ -38,7 +38,7 @@
         li {
             margin-bottom: 10px; /* Add space between list items */
         }
-       .placeholder,footer {
+       .placeholder,.menu,footer {
            margin:auto;
            margin-bottom: 10px;
            border: 1px solid #ddd;
@@ -60,12 +60,65 @@
         img {
           cursor: pointer; /* This makes the cursor change to a hand when hovering over an image */
         }
+        section {
+            display: none; /* Hide all sections by default */
+        }
+        section.active {
+            display: block; /* Display the active section */
+        }
+        .menu ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: left;
+        }
+        .menu ul li {
+            margin: 0 15px;
+        }
+        .menu ul li a {
+            text-decoration: none;
+            color: black;
+            font-size: 16px;
+            font-weight: bold;
+            padding: 10px 20px;
+            border-radius: 5px;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+        .menu ul li a:hover, .menu ul li a.active {
+            background-color: #f0a500;
+            color: black;
+            cursor: pointer;
+        }
+         .video-container {
+            display: flex;
+            justify-content: center;
+            gap: 20px; /* Space between the videos */
+            flex-wrap: wrap; /* Wrap videos on smaller screens */
+        }
+        .video-container blockquote {
+            max-width: 300px; /* Adjust width as needed */
+            flex: 1 1 auto; /* Allow videos to resize on smaller screens */
+        }
     </style>
 </head>
 <body>
-<div class="placeholder">
-    PLACEHOLDER_CONTENT
+<div class="menu">
+    <ul>
+        <li><a id="home" onclick="setActive('home')">Home</a></li>
+        <li><a id="video" onclick="setActive('video')">Video</a></li>
+    </ul>
 </div>
+<section id="home-section" class="active">
+    <div class="placeholder">
+        HOME_PLACEHOLDER_CONTENT
+    </div>
+</section>
+<section id="video-section">
+    <div class="placeholder">
+        VIDEO_PLACEHOLDER_CONTENT
+    </div>
+</section>
 <footer>
     &copy; <span id="year"></span> Pop Radu. DIY Piggyback for Electric Fuel Injector Engines.
     Released under the
@@ -89,6 +142,21 @@
       window.open(imageUrl, '_blank'); // Open the image in a new tab
     });
     });
+
+    function setActive(sectionId) {
+        // Hide all sections
+        const sections = document.querySelectorAll("section");
+        sections.forEach(section => section.classList.remove("active"));
+
+        // Remove active class from all menu buttons
+        const buttons = document.querySelectorAll(".menu ul li a");
+        buttons.forEach(button => button.classList.remove("active"));
+
+        // Show the selected section and highlight the menu button
+        document.getElementById(sectionId).classList.add("active");
+        document.getElementById(sectionId + "-section").classList.add("active");
+    }
+
 </script>
 </body>
 </html>
