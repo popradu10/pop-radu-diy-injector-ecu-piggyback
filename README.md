@@ -3,6 +3,15 @@
 [A custom piggyback module](#module) was developed to extend the injector closing time on an EFI engine,
 ensuring compatibility with the increased cylinder capacity following the installation of [a big bore kit](#cylinder).
 
+```arduino
+// Percentage of additional fuel injection at low RPM
+const int LOW_RPM_PERCENTAGE_LEVEL = 5;
+// Percentage of additional fuel injection at middle RPM
+const int MIDDLE_RPM_PERCENTAGE_LEVEL = 12;
+// Percentage of additional fuel injection at high RPM
+const int HIGH_RPM_PERCENTAGE_LEVEL = 15;
+```
+
 This is a DIY [piggyback solution](#diagram) for single-injector EFI engines that operate with the stock ECU but with 
 an [increase engine displacement/cylinder](#cylinder).
 
