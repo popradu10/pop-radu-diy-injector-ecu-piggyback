@@ -1,32 +1,41 @@
 #include <TimerOne.h>
 
 int PERCENTAGE_LEVEL = 1;
+// Percentage of additional fuel injection at low RPM
 const int LOW_RPM_PERCENTAGE_LEVEL = 5;
+// Percentage of additional fuel injection at middle RPM
 const int MIDDLE_RPM_PERCENTAGE_LEVEL = 12;
+// Percentage of additional fuel injection at high RPM
 const int HIGH_RPM_PERCENTAGE_LEVEL = 15;
+
+// Threshold for low RPM range (RPM value below which LOW_RPM_PERCENTAGE_LEVEL is used)
 const int LOW_RPM_THRESHOLD = 3000;     //RPMs
+// Threshold for middle RPM range (RPM value above LOW_RPM_THRESHOLD but below this value)
 const int MIDDLE_RPM_THRESHOLD = 5000;  //RPMs
 
-//piggyback injector pins
+// Piggyback injector pins
 uint8_t GPIO_InjectorIN = A0;
 uint8_t GPIO_InjectorOUT = A2;
 
-//variables used to count how much time the injector is open by ECU
-//and how much to delay the injector output
+// Variables to count how long the injector is open (on) and delay for closing
 unsigned long onFromECUInjectorMicroSeconds = 0;
 unsigned long delayToCloseInjectorMicroSeconds = 0;
 unsigned long offFromECUInjectorMicroSeconds = 0;
 
+// Timer variables
 volatile unsigned long timerTriggerMicroSeconds = 0;
 volatile unsigned long microSecondsCount = 0;
 volatile boolean timerTrigger = false;
 
+// Flags for state tracking
 boolean firstTimeOnInjectorEcu = true;
 boolean firstTimeOffInjectorEcu = true;
 
+// RPM computation trigger and value
 boolean computeRPMTrigger = true;
 unsigned int rpmValue = 0;
 
+// Debugging counter for warnings
 unsigned long warnCount = 0;
 
 void infoPrint();
