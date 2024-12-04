@@ -103,9 +103,10 @@
             max-width: 300px; /* Adjust width as needed */
             flex: 1 1 auto; /* Allow videos to resize on smaller screens */
         }
-
-        pre, code {
-          font-size: 0.8em; /* Makes it 80% of the parent font size */
+        
+        /* Adjust font size for Prism.js blocks */
+        pre[class*="language-"], code[class*="language-"] {
+          font-size: 12px; /* Smaller font size */
         }
     </style>
 </head>
