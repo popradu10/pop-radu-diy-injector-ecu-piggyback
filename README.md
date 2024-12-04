@@ -3,7 +3,7 @@
 [A custom piggyback module](#module) was developed to extend the injector closing time on an EFI engine,
 ensuring compatibility with the increased cylinder capacity following the installation of [a big bore kit](#cylinder).
 
-```
+```arduino
 // Percentage of additional fuel injection at low RPM
 const int LOW_RPM_PERCENTAGE_LEVEL = 5;
 // Percentage of additional fuel injection at middle RPM
