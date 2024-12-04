@@ -93,6 +93,18 @@
             color: black;
             cursor: pointer;
         }
+
+        /* Media query to display menu on two lines when needed */
+        @media (max-width: 400px) {
+            .menu ul {
+                flex-wrap: wrap; /* Allow items to wrap onto multiple lines */
+            }
+            .menu li {
+                margin-right: 0px;
+                margin-bottom: 10px; /* Add space between items when they wrap */
+            }
+        }
+        
          .video-container {
             display: flex;
             justify-content: center;
