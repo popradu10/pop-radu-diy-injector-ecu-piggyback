@@ -30,7 +30,7 @@ with open(input_file_path, "r", encoding="utf-8") as file:
     markdown_content = file.read()
 
 # Convert Markdown to HTML
-html_content = markdown.markdown(markdown_content)
+html_content = markdown.markdown(markdown_content, extensions=["fenced_code"])
 
 # Replace the placeholder with the new content
 final_html_content = template_content.replace(home_placeholder, html_content).replace(video_placeholder,
