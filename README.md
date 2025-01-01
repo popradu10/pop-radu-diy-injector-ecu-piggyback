@@ -38,7 +38,7 @@ Open source project: [https://github.com/popradu10/pop-radu-diy-injector-ecu-pig
 1. Increase engine capacity. For e.g. increase 139fmb engine from 50cc to 72cc. 
 2. Upgrade your exhaust. For e.g. remove the catalytic converter from the exhaust.
 3. Unlocked your ECU engine controller. For e.g. get a ECU without rev limitation for Barton Volcano Euro 5.
-4. Upgrade Front Pin tooth count.
+4. Upgrade [front pinion teeth count](#pinion).
 
 ### DIY injector piggyback module:
 
@@ -186,7 +186,10 @@ Upgrading the front sprocket (also known as the front pin or front chainring) fr
 * Engine RPM: At any given speed, the engine RPM will be lower with a larger front sprocket. This can reduce engine wear and improve fuel efficiency.
 * Torque: The torque at the rear wheel will decrease, as the mechanical advantage is reduced with a larger front sprocket.
 
-<img src="/docs/pinion-428-14T.jpg" width="400">
+<p id="pinion">
+<img align="left" src="/docs/approx_speed_7000rpm.jpg" width="400">
+<img src="/docs/pinion-428-14T.jpg" width="300">
+</p>
 
 ### Arduiono IDE with TimerOne library version 1.1.1
 
