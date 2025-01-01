@@ -177,7 +177,7 @@ Unlocking an ECU (Engine Control Unit) typically refers to modifying or reprogra
 Ensure your vehicle’s ECU can be unlocked and that there are compatible tuning solutions available.
 Regularly monitor engine parameters to prevent overheating, detonation, or other issues.
 
-### Upgrade front pinion from 12T to 14T or 16T
+### Upgrade front pinion from 12T to 14T
 
 Upgrading the front sprocket (also known as the front pin or front chainring) from a 12-tooth (12T) to a 14-tooth (14T) on a motorcycle will affect several aspects of the bike's performance:
 
