@@ -137,6 +137,7 @@ With the flyback diode:
 <img src="/docs/with_flyback_diode.jpg" width="600">
 
 Type of Diode:
+
 * Schottky diodes are preferred for flyback protection because they have a fast switching speed and a low forward voltage drop (usually between 0.2V and 0.4V).
 * Standard rectifier diodes (e.g., 1N4007) can also be used but are slower and have a higher forward voltage drop (~0.7V). They are, however, acceptable for slower, low-frequency switching.
 
@@ -162,6 +163,7 @@ Upgrading your exhaust system to one without a catalytic converter can have seve
 <img src="/docs/JUNAK-BARTON-exhaust.jpg" width="400">
 
 Performance Benefits:
+
 * Increased Power. Removing the catalytic converter reduces back pressure, allowing exhaust gases to flow more freely. This can lead to a noticeable increase in horsepower and torque.
 * Improved Throttle Response. The engine can expel exhaust gases more efficiently, improving throttle response and acceleration.
 * Enhanced Sound. The exhaust note is typically louder and more aggressive without a catalytic converter.
@@ -194,4 +196,5 @@ Set up the Arduino IDE with the TimerOne library version 1.1.1:
 
 You should have the Arduino IDE set up with the TimerOne library version 1.1.1 successfully.
 Writing the code to your Arduino Micro Pro Board parameters:
+
 * Port: Select the COM port to which your Arduino Micro Pro Board is connected.
