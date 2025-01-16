@@ -20,8 +20,7 @@ an [increase engine displacement/cylinder](#cylinder).
 Open source project: [https://github.com/popradu10/pop-radu-diy-injector-ecu-piggyback](https://github.com/popradu10/pop-radu-diy-injector-ecu-piggyback)
 
 #### Wiki
-
-[https://diy-efi-piggyback.infinityfreeapp.com](https://diy-efi-piggyback.infinityfreeapp.com)
+Web page: [https://diy-efi-piggyback.infinityfreeapp.com](https://diy-efi-piggyback.infinityfreeapp.com)
 
 #### It does this by:
 
