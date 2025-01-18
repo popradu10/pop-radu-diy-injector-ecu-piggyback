@@ -20,7 +20,7 @@ uint8_t GPIO_InjectorOUT = A2;
 // Variables to count how long the injector is open (on) and delay for closing
 unsigned long onFromECUInjectorMicroSeconds = 0;
 unsigned long delayToCloseInjectorMicroSeconds = 0;
-unsigned long offFromECUInjectorMicroSeconds = 0;
+unsigned long offInjectorMicroSeconds = 0;
 
 // Timer variables
 volatile unsigned long timerTriggerMicroSeconds = 0;
@@ -55,9 +55,8 @@ void setup() {
   pinMode(GPIO_InjectorIN, INPUT_PULLUP);
   pinMode(GPIO_InjectorOUT, OUTPUT);
   digitalWrite(GPIO_InjectorOUT, LOW);  // turn the injector OFF (HIGH)
-  delay(1200);
+  delay(200);
   infoPrint();
-  // testSerialSpeed();
 }
 
 void loop() {
@@ -69,12 +68,12 @@ void loop() {
       digitalWrite(GPIO_InjectorOUT, HIGH);
 
       //read ECU injector off time
-      offFromECUInjectorMicroSeconds = readResetAndStopTimer();
+      offInjectorMicroSeconds = readResetAndStopTimer();
       //start timer as the timerTriggerMicroSeconds was already computed
       startTimer();
 
       //if the real injector wasn't closed at all
-      if (timerTriggerMicroSeconds > offFromECUInjectorMicroSeconds) {
+      if (timerTriggerMicroSeconds > offInjectorMicroSeconds) {
         warnCount++;
         //display debugging information
         Serial.println("W");
@@ -122,7 +121,7 @@ void loop() {
       Serial.print(",");
       Serial.print(delayToCloseInjectorMicroSeconds);
       Serial.print(",");
-      Serial.print(offFromECUInjectorMicroSeconds);
+      Serial.print(offInjectorMicroSeconds);
       Serial.print(",");
       Serial.println(warnCount);
       //Serial.print(",R");
@@ -136,7 +135,7 @@ void loop() {
 
 void computeRPMandChangePercentageLevel() {
   //1 minute in microseconds * the total time for 2 rotation
-  rpmValue = (long)(((float)60000000 / (offFromECUInjectorMicroSeconds + delayToCloseInjectorMicroSeconds + onFromECUInjectorMicroSeconds)) * 2);
+  rpmValue = (long)(((float)60000000 / (offInjectorMicroSeconds + delayToCloseInjectorMicroSeconds + onFromECUInjectorMicroSeconds)) * 2);
 
   if (MIDDLE_RPM_THRESHOLD < rpmValue) {
     PERCENTAGE_LEVEL = HIGH_RPM_PERCENTAGE_LEVEL;
@@ -174,19 +173,6 @@ void infoPrint() {
   Serial.println("All good.");
   Serial.println(Serial.baud());
   Serial.println("Good luck.");
-  Serial.println(",DelayPercentage,OnInjectorECU,ComputedDelayToInjector,DoubleCheckDelay,OffInjectorECU,WarnCounts,RPM");
+  Serial.println(",DelayPercentage,OnInjectorECU,AddedDelayToInjector,OffInjector,WarnCounts");
 }
 
-void testSerialSpeed() {
-  // Repeat a task multiple times
-  int count = 0;
-  for (int i = 0; i < 20; i++) {
-    delay(100);
-    readResetAndStopTimer();
-    startTimer();
-    Serial.print("Test Serial Speed ");
-    Serial.print(i);
-    Serial.print(" speed: ");
-    Serial.println(readResetAndStopTimer());
-  }
-}
