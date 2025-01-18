@@ -77,13 +77,7 @@ void loop() {
       if (timerTriggerMicroSeconds > offFromECUInjectorMicroSeconds) {
         warnCount++;
         //display debugging information
-        Serial.print(",");
-        Serial.print(PERCENTAGE_LEVEL);
-        Serial.print("%,");
-        Serial.print(onFromECUInjectorMicroSeconds);
-        Serial.print(",");
-        Serial.print(timerTriggerMicroSeconds);
-        Serial.println(",");
+        Serial.println("W");
       }
 
       //first time on took place already
@@ -123,18 +117,16 @@ void loop() {
       //display debugging information
       Serial.print(",");
       Serial.print(PERCENTAGE_LEVEL);
-      Serial.print("%,");
-      Serial.print(onFromECUInjectorMicroSeconds);
       Serial.print(",");
-      Serial.print(timerTriggerMicroSeconds);
+      Serial.print(onFromECUInjectorMicroSeconds);
       Serial.print(",");
       Serial.print(delayToCloseInjectorMicroSeconds);
       Serial.print(",");
       Serial.print(offFromECUInjectorMicroSeconds);
-      Serial.print(",W");
-      Serial.print(warnCount);
-      Serial.print(",R");
-      Serial.println(rpmValue);
+      Serial.print(",");
+      Serial.println(warnCount);
+      //Serial.print(",R");
+      //Serial.println(rpmValue);
       //trigger the rpm compute
       computeRPMTrigger = true;
     }
@@ -144,7 +136,7 @@ void loop() {
 
 void computeRPMandChangePercentageLevel() {
   //1 minute in microseconds * the total time for 2 rotation
-  rpmValue = (long)(((float)60000000 / (offFromECUInjectorMicroSeconds + onFromECUInjectorMicroSeconds)) * 2);
+  rpmValue = (long)(((float)60000000 / (offFromECUInjectorMicroSeconds + delayToCloseInjectorMicroSeconds + onFromECUInjectorMicroSeconds)) * 2);
 
   if (MIDDLE_RPM_THRESHOLD < rpmValue) {
     PERCENTAGE_LEVEL = HIGH_RPM_PERCENTAGE_LEVEL;
