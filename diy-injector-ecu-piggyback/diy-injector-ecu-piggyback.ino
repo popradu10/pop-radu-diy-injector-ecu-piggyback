@@ -38,6 +38,18 @@ unsigned int rpmValue = 0;
 // Debugging counter for warnings
 unsigned long warnCount = 0;
 
+// Define DEBUG mode
+#define DEBUG_MODE 1 // Set to 0 to disable debug messages
+
+// Define DEBUG and DEBUGLN macros
+#if DEBUG_MODE
+  #define DEBUG(x) Serial.print(x)
+  #define DEBUGLN(x) Serial.println(x)
+#else
+  #define DEBUG(x)    // No operation
+  #define DEBUGLN(x)  // No operation
+#endif
+
 void infoPrint();
 unsigned long computeTriggerTimeDependingOnOperationMode();
 
@@ -63,6 +75,7 @@ void loop() {
   int injectorIn = digitalRead(GPIO_InjectorIN);
   if (injectorIn == LOW) {
     //the input is negative, meaning that the ECU want's to open the injector
+
     if (firstTimeOnInjectorEcu) {
       //open the real injector output (HIGH) right away
       digitalWrite(GPIO_InjectorOUT, HIGH);
@@ -75,8 +88,6 @@ void loop() {
       //if the real injector wasn't closed at all
       if (timerTriggerMicroSeconds > offInjectorMicroSeconds) {
         warnCount++;
-        //display debugging information
-        Serial.println("W");
       }
 
       //first time on took place already
@@ -86,6 +97,8 @@ void loop() {
     }
 
   } else {
+    //when the ECU injector is OFF
+
     if (firstTimeOffInjectorEcu) {
       //read the ECU injector on time
       onFromECUInjectorMicroSeconds = readResetAndStopTimer();
@@ -107,23 +120,20 @@ void loop() {
       //close the real injector output (LOW) after a delay to increase the injector opening time
       digitalWrite(GPIO_InjectorOUT, LOW);
 
-      //quick read the time without reseting the time, only the trigger
-      Timer1.stop();
-      timerTrigger = false;
-      delayToCloseInjectorMicroSeconds = microSecondsCount;
-      Timer1.start();
+      //read the real delay time
+      delayToCloseInjectorMicroSeconds = readResetAndStopTimer();
 
       //display debugging information
-      Serial.print(",");
-      Serial.print(PERCENTAGE_LEVEL);
-      Serial.print(",");
-      Serial.print(onFromECUInjectorMicroSeconds);
-      Serial.print(",");
-      Serial.print(delayToCloseInjectorMicroSeconds);
-      Serial.print(",");
-      Serial.print(offInjectorMicroSeconds);
-      Serial.print(",");
-      Serial.println(warnCount);
+      DEBUG(",");
+      DEBUG(PERCENTAGE_LEVEL);
+      DEBUG(",");
+      DEBUG(onFromECUInjectorMicroSeconds);
+      DEBUG(",");
+      DEBUG(delayToCloseInjectorMicroSeconds);
+      DEBUG(",");
+      DEBUG(offInjectorMicroSeconds);
+      DEBUG(",");
+      DEBUGLN(warnCount);
       //Serial.print(",R");
       //Serial.println(rpmValue);
       //trigger the rpm compute
@@ -173,6 +183,6 @@ void infoPrint() {
   Serial.println("All good.");
   Serial.println(Serial.baud());
   Serial.println("Good luck.");
-  Serial.println(",DelayPercentage,OnInjectorECU,AddedDelayToInjector,OffInjector,WarnCounts");
+  DEBUGLN(",DelayPercentage,OnInjectorECU,AddedDelayToInjector,OffInjector,WarnCounts");
 }
 
