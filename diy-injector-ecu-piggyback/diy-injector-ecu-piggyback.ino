@@ -133,9 +133,9 @@ void loop() {
       DEBUG(",");
       DEBUG(offInjectorMicroSeconds);
       DEBUG(",");
-      DEBUGLN(warnCount);
-      //Serial.print(",R");
-      //Serial.println(rpmValue);
+      DEBUG(warnCount);
+      DEBUG(",");
+      DEBUGLN(rpmValue);
       //trigger the rpm compute
       computeRPMTrigger = true;
     }
