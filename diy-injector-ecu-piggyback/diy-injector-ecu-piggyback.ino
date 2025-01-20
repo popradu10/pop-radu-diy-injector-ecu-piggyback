@@ -23,7 +23,7 @@ unsigned long delayToCloseInjectorMicroSeconds = 0;
 unsigned long offInjectorMicroSeconds = 0;
 
 // Timer variables
-volatile unsigned long timerTriggerMicroSeconds = 0;
+volatile long timerTriggerMicroSeconds = 0;
 volatile unsigned long microSecondsCount = 0;
 volatile boolean timerTrigger = false;
 
@@ -51,7 +51,7 @@ unsigned long warnCount = 0;
 #endif
 
 void infoPrint();
-unsigned long computeTriggerTimeDependingOnOperationMode();
+unsigned long computeDelayTriggerTime();
 
 void Timer1_ISR(void) {
   if (microSecondsCount == timerTriggerMicroSeconds) {
@@ -82,12 +82,14 @@ void loop() {
 
       //read ECU injector off time
       offInjectorMicroSeconds = readResetAndStopTimer();
-      //start timer as the timerTriggerMicroSeconds was already computed
+      //start timer to count on injector time
       startTimer();
 
-      //if the real injector wasn't closed at all
+      //if the real injector wasn't closed at all the timerTriggerMicroSeconds was not reset
       if (timerTriggerMicroSeconds > offInjectorMicroSeconds) {
         warnCount++;
+        DEBUG(",W");
+        DEBUGLN(warnCount);
       }
 
       //first time on took place already
@@ -103,7 +105,7 @@ void loop() {
       //read the ECU injector on time
       onFromECUInjectorMicroSeconds = readResetAndStopTimer();
       //compute the next delay based on how many loops the injector ECU input was open
-      timerTriggerMicroSeconds = computeTriggerTimeDependingOnOperationMode();
+      timerTriggerMicroSeconds = computeDelayTriggerTime();
       //start timer only after the new timerTriggerMicroSeconds was computed
       startTimer();
       //reset the values
@@ -119,9 +121,10 @@ void loop() {
     if (timerTrigger) {
       //close the real injector output (LOW) after a delay to increase the injector opening time
       digitalWrite(GPIO_InjectorOUT, LOW);
-
       //read the real delay time
       delayToCloseInjectorMicroSeconds = readResetAndStopTimer();
+      //start timer to count how much time the real injector is off
+      startTimer();
 
       //display debugging information
       DEBUG(",");
@@ -159,7 +162,9 @@ void computeRPMandChangePercentageLevel() {
 unsigned long readResetAndStopTimer() {
   //make sure we prepare for the next trigger
   Timer1.stop();
-  //reset also the triggers when restart the counter
+  //don't set any trigger value when restarting the counter
+  timerTriggerMicroSeconds = -1;
+  //reset the trigger flag when restarting the counter
   timerTrigger = false;
   return microSecondsCount;
 }
@@ -170,7 +175,7 @@ void startTimer() {
 }
 
 
-unsigned long computeTriggerTimeDependingOnOperationMode() {
+unsigned long computeDelayTriggerTime() {
   if (PERCENTAGE_LEVEL > 0 || PERCENTAGE_LEVEL < 100) {
     //for the increase operation mode: we need to compute the delay of closing time
     return (long)((onFromECUInjectorMicroSeconds * PERCENTAGE_LEVEL) / 10000) * 100;
