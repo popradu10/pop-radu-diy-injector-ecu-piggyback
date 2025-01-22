@@ -18,13 +18,13 @@ uint8_t GPIO_InjectorIN = A0;
 uint8_t GPIO_InjectorOUT = A2;
 
 // Variables to count how long the injector is open (on) and delay for closing
-unsigned long onFromECUInjectorMicroSeconds = 0;
-unsigned long delayToCloseInjectorMicroSeconds = 0;
-unsigned long offInjectorMicroSeconds = 0;
+long onFromECUInjectorMicroSeconds = 0;
+long delayToCloseInjectorMicroSeconds = 0;
+long offInjectorMicroSeconds = 0;
 
 // Timer variables
 volatile long timerTriggerMicroSeconds = 0;
-volatile unsigned long microSecondsCount = 0;
+volatile long microSecondsCount = 0;
 volatile boolean timerTrigger = false;
 
 // Flags for state tracking
@@ -85,8 +85,8 @@ void loop() {
       //start timer to count on injector time
       startTimer();
 
-      //if the real injector wasn't closed at all the timerTriggerMicroSeconds was not reset
-      if (timerTriggerMicroSeconds > offInjectorMicroSeconds) {
+      //if the real injector wasn't closed the delayToCloseInjectorMicroSeconds for this cycle was not set
+      if (delayToCloseInjectorMicroSeconds == -1) {
         warnCount++;
         DEBUG(",W");
         DEBUGLN(warnCount);
@@ -106,6 +106,8 @@ void loop() {
       onFromECUInjectorMicroSeconds = readResetAndStopTimer();
       //compute the next delay based on how many loops the injector ECU input was open
       timerTriggerMicroSeconds = computeDelayTriggerTime();
+      //flag the delay to close with -1 to check later on if this happen
+      delayToCloseInjectorMicroSeconds = -1;
       //start timer only after the new timerTriggerMicroSeconds was computed
       startTimer();
       //reset the values
@@ -188,6 +190,6 @@ void infoPrint() {
   Serial.println("All good.");
   Serial.println(Serial.baud());
   Serial.println("Good luck.");
-  DEBUGLN(",DelayPercentage,OnInjectorECU,AddedDelayToInjector,OffInjector,WarnCounts");
+  DEBUGLN(",DelayPercentage,OnInjectorECU,AddedDelayToInjector,OffInjector,WarnCounts,RPM");
 }
 
