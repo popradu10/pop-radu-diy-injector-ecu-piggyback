@@ -6,7 +6,7 @@ const int LOW_RPM_PERCENTAGE_LEVEL = 2;
 // Percentage of additional fuel injection at middle RPM
 const int MIDDLE_RPM_PERCENTAGE_LEVEL = 5;
 // Percentage of additional fuel injection at high RPM
-const int HIGH_RPM_PERCENTAGE_LEVEL = 10;
+const int HIGH_RPM_PERCENTAGE_LEVEL = 15;
 
 // Threshold for low RPM range (RPM value below which LOW_RPM_PERCENTAGE_LEVEL is used)
 const int LOW_RPM_THRESHOLD = 3000;     //RPMs
