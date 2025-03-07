@@ -5,11 +5,11 @@ ensuring compatibility with the increased cylinder capacity following the instal
 
 ```c
 // Percentage of additional fuel injection at low RPM
-const int LOW_RPM_PERCENTAGE_LEVEL = 2;
+const int LOW_RPM_PERCENTAGE_LEVEL = 1;
 // Percentage of additional fuel injection at middle RPM
-const int MIDDLE_RPM_PERCENTAGE_LEVEL = 5;
+const int MIDDLE_RPM_PERCENTAGE_LEVEL = 15;
 // Percentage of additional fuel injection at high RPM
-const int HIGH_RPM_PERCENTAGE_LEVEL = 15;
+const int HIGH_RPM_PERCENTAGE_LEVEL = 25;
 ```
 
 This is a DIY [piggyback solution](#diagram) for single-injector EFI engines that operate with the stock ECU but with 
